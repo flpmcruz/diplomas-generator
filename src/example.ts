@@ -1,4 +1,4 @@
-import { generateTitles } from "./main.js";
+import { generateTitles } from "./index.js";
 
 generateTitles({
   fontSize: 220,
