@@ -16,7 +16,7 @@
     }
   },
   "scripts": {
-    "build": "rm -R ./dist && tsc --declaration && npm run copy-files",
+    "build": "tsc --declaration && npm run copy-files",
     "copy-files": "cp -R src/image src/data src/fonts dist/src",
     "start": "node dist/src/example.js"
   },
