@@ -2,6 +2,7 @@ import fs from "fs";
 
 interface TitleProps {
   fontPath: string;
+  color: string;
   fontSize: number;
   positionNameX: number;
   positionNameY: number;
@@ -17,12 +18,12 @@ interface RenderProps {
   name: string;
   imageName: string;
   imageQuality: number;
-  callback: (value?: unknown) => void;
 }
 
 export class Title {
   private fontPath: string;
   private fontSize: number;
+  private color: string;
   private positionNameX: number;
   private positionNameY: number;
   private outputImgPath: string;
@@ -37,6 +38,7 @@ export class Title {
   constructor({
     fontPath,
     fontSize,
+    color,
     positionNameX,
     positionNameY,
     outputImgPath,
@@ -48,6 +50,7 @@ export class Title {
   }: TitleProps) {
     this.fontPath = fontPath;
     this.fontSize = fontSize;
+    this.color = color;
     this.outputImgPath = outputImgPath;
     this.width = width;
     this.height = height;
@@ -56,20 +59,16 @@ export class Title {
     this.createCanvas = createCanvas;
     this.registerFont = registerFont;
     this.imageBaseTitle = imageBaseTitle;
-
-    this.init();
+    this.registerFont(this.fontPath, { family: "MiFuente" });
   }
 
-  init() {
+  render({ name, imageName, imageQuality }: RenderProps): Promise<void> {
     this.canvas = this.createCanvas(this.width, this.height);
     this.ctx = this.canvas.getContext("2d");
-    this.registerFont(this.fontPath, { family: "MiFuente" });
     this.ctx.font = `${this.fontSize}px 'MiFuente'`;
-    this.ctx.fillStyle = "#000";
+    this.ctx.fillStyle = this.color;
     this.ctx.textAlign = "center";
-  }
 
-  async render({ name, imageName, imageQuality, callback }: RenderProps) {
     // Dibujar la imagen base del título en el lienzo
     this.ctx.drawImage(this.imageBaseTitle, 0, 0, this.width, this.height);
 
@@ -85,7 +84,10 @@ export class Title {
       chromaSubsampling: false, // Desactivar submuestreo de croma para evitar artefactos de color
     });
 
-    stream.pipe(outputStream);
-    outputStream.on("finish", () => callback());
+    return new Promise<void>((resolve, reject) => {
+      stream.pipe(outputStream);
+      outputStream.on("finish", resolve);
+      outputStream.on("error", reject);
+    });
   }
 }

@@ -7,7 +7,8 @@ import { generateTitle } from "titles-generator";
 
 const config = {
   fontSize: 220,
-  positionNameX: 1650,
+  color: "#000000",
+  positionNameX: 1625,
   positionNameY: 950,
   imageQuality: 0.9,
   fontPath: "src/fonts/itcedscr.ttf",

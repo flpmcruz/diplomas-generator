@@ -1,4 +1,4 @@
-console.time("Time elapsed");
+console.time("Time elapsed".bgCyan);
 import fs from "fs";
 import path from "path";
 import PDFDocument from "pdfkit";
@@ -10,12 +10,13 @@ import { recreateDir, readList } from "./validations.js";
 
 interface generateTitlesProps {
   fontSize?: number;
+  color?: string;
   positionNameX?: number;
   positionNameY?: number;
   imageQuality?: number;
   fontPath?: string;
   inputTitlePath?: string;
-  inputNames?: string[] | string;
+  inputNames: string[] | string;
   outputImgPath?: string;
   outputPdfPath?: string;
 }
@@ -23,9 +24,10 @@ interface generateTitlesProps {
 export async function generateTitles(config: generateTitlesProps) {
   let basePath = "node_modules/diplomas-generator/dist/src";
   let fontSize = config?.fontSize || 220;
-  let positionNameX = config?.positionNameX || 1650;
+  let positionNameX = config?.positionNameX || 1625;
   let positionNameY = config?.positionNameY || 950;
   let imageQuality = config?.imageQuality || 0.9;
+  let color = config?.color || "#000000";
   let outputImgPath = config?.outputImgPath || "output/img";
   let outputPdfPath = config?.outputPdfPath || "output/titles.pdf";
 
@@ -61,6 +63,7 @@ export async function generateTitles(config: generateTitlesProps) {
 
   const title = new Title({
     fontPath,
+    color,
     fontSize,
     outputImgPath,
     positionNameX,
@@ -72,22 +75,19 @@ export async function generateTitles(config: generateTitlesProps) {
     registerFont,
   });
 
-  const titlesImages = inputNames.map((name, index) => {
-    return new Promise((resolve) => {
-      title.render({
-        name,
-        imageName: `${index + 1}.jpg`,
-        imageQuality,
-        callback: resolve,
-      });
+  const renderPromises = inputNames.map((name, index) => {
+    return title.render({
+      name,
+      imageName: `${index + 1}.jpg`,
+      imageQuality,
     });
   });
-  await Promise.all(titlesImages);
+  await Promise.all(renderPromises);
+
   looging("Images generated", messages.success);
-
   looging("---------------------");
-
   looging("Generating PDF", messages.main);
+
   const imagenesPaths: string[] = fs
     .readdirSync(outputImgPath)
     .map((file) => `${outputImgPath}/${file}`);
@@ -98,7 +98,8 @@ export async function generateTitles(config: generateTitlesProps) {
     height,
   });
   convertPDF.render(imagenesPaths);
+
   looging(`Count: ${imagenesPaths.length} titles`, messages.success);
   looging("PDF generated", messages.success);
-  console.timeEnd("Time elapsed");
+  console.timeEnd("Time elapsed".bgCyan);
 }
