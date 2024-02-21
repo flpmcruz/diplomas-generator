@@ -23,8 +23,8 @@ interface generateTitlesProps {
 export async function generateTitles(config: generateTitlesProps) {
   let basePath = "node_modules/diplomas-generator/dist/src";
   let fontSize = config?.fontSize || 220;
-  let positionNameX = config?.positionNameX || 1753;
-  let positionNameY = config?.positionNameY || 1150;
+  let positionNameX = config?.positionNameX || 1650;
+  let positionNameY = config?.positionNameY || 950;
   let imageQuality = config?.imageQuality || 0.9;
   let fontPath =
     config?.fontPath ||
@@ -41,7 +41,7 @@ export async function generateTitles(config: generateTitlesProps) {
   let outputImgPath = config?.outputImgPath || "output/img";
   let outputPdfPath = config?.outputPdfPath || "output/titles.pdf";
 
-  // validando
+  // validate if the output directory exists
   recreateDir(outputImgPath, outputPdfPath);
   const namesList = readList(inputTxtPath);
 

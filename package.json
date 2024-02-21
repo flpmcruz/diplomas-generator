@@ -1,6 +1,6 @@
 {
   "name": "diplomas-generator",
-  "version": "1.0.8",
+  "version": "1.0.10",
   "description": "This is a simple project to generate diplomas from a list of names and save them as a PDF file.",
   "repository": {
     "type": "git",
@@ -17,7 +17,7 @@
   "scripts": {
     "build": "tsc && npm run copy-files",
     "copy-files": "cp -R src/image src/data src/fonts dist/src",
-    "start": "node dist/src/index.js"
+    "start": "node dist/src/example.js"
   },
   "author": "Felipe Mireles Cruz",
   "license": "ISC",
@@ -33,6 +33,7 @@
   },
   "keywords": [
     "diploma",
+    "title",
     "generator",
     "pdf",
     "canvas"
