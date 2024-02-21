@@ -21,7 +21,7 @@ interface generateTitlesProps {
 }
 
 export async function generateTitles(config: generateTitlesProps) {
-  let basePath = "nodes_modules/diplomas-generator/dist/src";
+  let basePath = "node_modules/diplomas-generator/dist/src";
   let fontSize = config?.fontSize || 220;
   let positionNameX = config?.positionNameX || 1753;
   let positionNameY = config?.positionNameY || 1150;
