@@ -15,7 +15,7 @@ interface generateTitlesProps {
   imageQuality?: number;
   fontPath?: string;
   inputTitlePath?: string;
-  inputTxtPath?: string;
+  inputNames?: string[] | string;
   outputImgPath?: string;
   outputPdfPath?: string;
 }
@@ -26,27 +26,34 @@ export async function generateTitles(config: generateTitlesProps) {
   let positionNameX = config?.positionNameX || 1650;
   let positionNameY = config?.positionNameY || 950;
   let imageQuality = config?.imageQuality || 0.9;
-  let fontPath =
-    config?.fontPath ||
-    path.join(path.resolve(), basePath, "fonts/itcedscr.ttf") ||
-    "./fonts/itcedscr.ttf";
+  let outputImgPath = config?.outputImgPath || "output/img";
+  let outputPdfPath = config?.outputPdfPath || "output/titles.pdf";
+
   let inputTitlePath =
     config?.inputTitlePath ||
     path.join(path.resolve(), basePath, "image/title.jpg") ||
     "./image/title.jpg";
-  let inputTxtPath =
-    config?.inputTxtPath ||
-    path.join(path.resolve(), basePath, "data/names.txt") ||
-    "./data/names.txt";
-  let outputImgPath = config?.outputImgPath || "output/img";
-  let outputPdfPath = config?.outputPdfPath || "output/titles.pdf";
+  let inputNames = config?.inputNames || [];
+
+  let fontPath =
+    config?.fontPath ||
+    path.join(path.resolve(), basePath, "fonts/itcedscr.ttf") ||
+    "./fonts/itcedscr.ttf";
 
   // validate if the output directory exists
   recreateDir(outputImgPath, outputPdfPath);
-  const namesList = readList(inputTxtPath);
+
+  looging("Reading the list of names", messages.main);
+
+  if (typeof inputNames === "string" && inputNames.length > 0)
+    inputNames = readList(inputNames);
+
+  if (!Array.isArray(inputNames) || inputNames.length === 0) {
+    looging("No names found", messages.error);
+    return;
+  }
 
   looging("Generating images", messages.main);
-
   // Cargar la imagen del título
   const imageBaseTitle = await loadImage(inputTitlePath);
   const width = imageBaseTitle.width;
@@ -65,7 +72,7 @@ export async function generateTitles(config: generateTitlesProps) {
     registerFont,
   });
 
-  const titlesImages = namesList.map((name, index) => {
+  const titlesImages = inputNames.map((name, index) => {
     return new Promise((resolve) => {
       title.render({
         name,
@@ -91,6 +98,7 @@ export async function generateTitles(config: generateTitlesProps) {
     height,
   });
   convertPDF.render(imagenesPaths);
+  looging(`Count: ${imagenesPaths.length} titles`, messages.success);
   looging("PDF generated", messages.success);
   console.timeEnd("Time elapsed");
 }

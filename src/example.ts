@@ -9,5 +9,5 @@ generateTitles({
   inputTitlePath: "src/image/title.jpg",
   outputImgPath: "output/img",
   outputPdfPath: "output/titles.pdf",
-  inputTxtPath: "src/data/names.txt",
+  inputNames: "src/data/names.txt", // or ["Felipe", "Juan", "Pedro"]
 });
