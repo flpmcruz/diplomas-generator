@@ -1,5 +1,6 @@
 console.time("Time elapsed");
 import fs from "fs";
+import path from "path";
 import PDFDocument from "pdfkit";
 import { createCanvas, loadImage, registerFont } from "canvas";
 import { looging, messages } from "./logging.js";
@@ -19,17 +20,21 @@ interface generateTitlesProps {
   outputPdfPath?: string;
 }
 
-export async function generateTitles({
-  fontSize = 220,
-  positionNameX = 1753,
-  positionNameY = 1150,
-  imageQuality = 0.9,
-  fontPath = "src/fonts/itcedscr.ttf",
-  inputTitlePath = "src/image/title.jpg",
-  inputTxtPath = "src/data/names.txt",
-  outputImgPath = "output/img",
-  outputPdfPath = "output/titles.pdf",
-}: generateTitlesProps) {
+export async function generateTitles(config: generateTitlesProps) {
+  let fontSize = config?.fontSize || 220;
+  let positionNameX = config?.positionNameX || 1753;
+  let positionNameY = config?.positionNameY || 1150;
+  let imageQuality = config?.imageQuality || 0.9;
+  let fontPath =
+    config?.fontPath || `${path.join(path.resolve(), "./fonts/itcedscr.ttf")}`;
+  let inputTitlePath =
+    config?.inputTitlePath ||
+    `${path.join(path.resolve(), "./image/title.jpg")}`;
+  let inputTxtPath =
+    config?.inputTxtPath || `${path.join(path.resolve(), "./data/names.txt")}`;
+  let outputImgPath = config?.outputImgPath || "output/img";
+  let outputPdfPath = config?.outputPdfPath || "output/titles.pdf";
+
   // validando
   recreateDir(outputImgPath, outputPdfPath);
   const namesList = readList(inputTxtPath);
