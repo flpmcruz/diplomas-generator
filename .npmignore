@@ -1,0 +1,9 @@
+package.lock.json
+node_modules
+tsconfig.json
+.github/*
+!**/.github
+.gitignore
+package.json
+package-lock.json
+src/*
