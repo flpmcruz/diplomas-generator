@@ -1,13 +1,13 @@
 {
   "name": "diplomas-generator",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "This is a simple project to generate diplomas from a list of names and save them as a PDF file.",
   "repository": {
     "type": "git",
     "url": "https://github.com/flpmcruz/diplomas-generator.git"
   },
   "type": "module",
-  "main": "index.js",
+  "main": "dist/src/main.js",
   "exports": {
     ".": {
       "import": "./dist/src/main.js",
@@ -19,7 +19,7 @@
     "copy-files": "cp -R src/image src/data src/fonts dist/src",
     "start": "node dist/src/index.js"
   },
-  "author": "Felipe",
+  "author": "Felipe Mireles Cruz",
   "license": "ISC",
   "dependencies": {
     "@colors/colors": "^1.6.0",
