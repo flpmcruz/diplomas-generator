@@ -1,6 +1,6 @@
 {
   "name": "diplomas-generator",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "This is a simple project to generate diplomas from a list of names and save them as a PDF file.",
   "repository": {
     "type": "git",
