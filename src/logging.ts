@@ -16,17 +16,12 @@ colors.setTheme({
 
 export function looging(message: string, type = messages.default) {
   if (type === messages.main) {
-    console.log("-".repeat(10), colors.bgBlack.white(message), "-".repeat(10));
-    return;
+    console.log("-".repeat(10), colors.bgBlack.white(message));
   } else if (type === messages.error) {
-    console.log("-".repeat(10), colors.red(message), "-".repeat(10));
-    return;
+    console.log("-".repeat(10), colors.red(message));
   } else if (type === messages.success) {
-    console.log("-".repeat(10), colors.green(message), "-".repeat(10));
-    return;
+    console.log("-".repeat(10), colors.green(message));
   } else if (type === messages.default) {
     console.log(colors.white(message));
-    return;
-  }
-  console.log(message);
+  } else console.log(message);
 }

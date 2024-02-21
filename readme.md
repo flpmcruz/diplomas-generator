@@ -5,6 +5,7 @@
 ```js
 import { generateTitle } from "titles-generator";
 
+// All the parameters are optional, only the inputNames is required.
 const config = {
   fontSize: 220,
   color: "#000000",
@@ -15,13 +16,13 @@ const config = {
   inputTitlePath: "src/image/title.jpg",
   outputImgPath: "output/img",
   outputPdfPath: "output/titles.pdf",
-  inputNames: "src/data/names.txt", // or ["Felipe", "Juan", "Pedro"]
+  inputNames: "src/data/names.txt", // or ["Felipe", "Juan", "Pedro"] *Required
 };
 
 generateTitles(config);
 ```
 
-File names2.txt should contain a list of names separated by new line.
+File names.txt should contain a list of names separated by new line.
 
 ```txt
 John Doe

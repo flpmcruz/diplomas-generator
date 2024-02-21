@@ -20,8 +20,27 @@ interface generateTitlesProps {
   outputImgPath?: string;
   outputPdfPath?: string;
 }
-
-export async function generateTitles(config: generateTitlesProps) {
+/**
+ * @param {generateTitlesProps} config
+ * @returns {Promise<void>}
+ * @description Generate titles with the names provided in the inputNames parameter, and save them in the outputImgPath directory. Then, it generates a PDF with the images and saves it in the outputPdfPath directory. Only the inputNames parameter is required, the rest of the parameters are optional.
+ * @example
+ * generateTitles({
+ *  fontSize: 220,
+ *  color: "#000000",
+ *  positionNameX: 1653,
+ *  positionNameY: 950,
+ *  imageQuality: 0.9,
+ *  fontPath: "src/fonts/itcedscr.ttf",
+ *  inputTitlePath: "src/image/title.jpg",
+ *  outputImgPath: "output/img",
+ *  outputPdfPath: "output/titles.pdf",
+ *  inputNames: "src/data/names.txt", // or ["Felipe", "Juan", "Pedro"]
+ * });
+ */
+export async function generateTitles(
+  config: generateTitlesProps
+): Promise<void> {
   let basePath = "node_modules/diplomas-generator/dist/src";
   let fontSize = config?.fontSize || 220;
   let positionNameX = config?.positionNameX || 1625;
