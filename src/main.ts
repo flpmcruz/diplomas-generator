@@ -21,17 +21,23 @@ interface generateTitlesProps {
 }
 
 export async function generateTitles(config: generateTitlesProps) {
+  let basePath = "nodes_modules/diplomas-generator";
   let fontSize = config?.fontSize || 220;
   let positionNameX = config?.positionNameX || 1753;
   let positionNameY = config?.positionNameY || 1150;
   let imageQuality = config?.imageQuality || 0.9;
   let fontPath =
-    config?.fontPath || `${path.join(path.resolve(), "./fonts/itcedscr.ttf")}`;
+    config?.fontPath ||
+    path.join(path.resolve(), "fonts/itcedscr.ttf") ||
+    "./fonts/itcedscr.ttf";
   let inputTitlePath =
     config?.inputTitlePath ||
-    `${path.join(path.resolve(), "./image/title.jpg")}`;
+    path.join(path.resolve(), "image/title.jpg") ||
+    "./image/title.jpg";
   let inputTxtPath =
-    config?.inputTxtPath || `${path.join(path.resolve(), "./data/names.txt")}`;
+    config?.inputTxtPath ||
+    path.join(path.resolve(), "data/names.txt") ||
+    "./data/names.txt";
   let outputImgPath = config?.outputImgPath || "output/img";
   let outputPdfPath = config?.outputPdfPath || "output/titles.pdf";
 
