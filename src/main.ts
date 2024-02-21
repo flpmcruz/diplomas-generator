@@ -28,15 +28,15 @@ export async function generateTitles(config: generateTitlesProps) {
   let imageQuality = config?.imageQuality || 0.9;
   let fontPath =
     config?.fontPath ||
-    path.join(path.resolve(), "fonts/itcedscr.ttf") ||
+    path.join(path.resolve(), basePath, "fonts/itcedscr.ttf") ||
     "./fonts/itcedscr.ttf";
   let inputTitlePath =
     config?.inputTitlePath ||
-    path.join(path.resolve(), "image/title.jpg") ||
+    path.join(path.resolve(), basePath, "image/title.jpg") ||
     "./image/title.jpg";
   let inputTxtPath =
     config?.inputTxtPath ||
-    path.join(path.resolve(), "data/names.txt") ||
+    path.join(path.resolve(), basePath, "data/names.txt") ||
     "./data/names.txt";
   let outputImgPath = config?.outputImgPath || "output/img";
   let outputPdfPath = config?.outputPdfPath || "output/titles.pdf";
