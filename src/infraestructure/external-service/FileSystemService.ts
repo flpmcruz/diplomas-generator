@@ -1,5 +1,5 @@
 import fs from "fs";
-import { looging } from "./logging.js";
+import { Loggin } from "./logging.js";
 
 export class FileSystemService {
   static recreateDir(outputPath: string, outputPDF: string) {
@@ -19,17 +19,17 @@ export class FileSystemService {
   static readList(listPath: string) {
     try {
       if (!fs.existsSync(listPath)) {
-        looging(`${listPath} does not found`, "error");
+        Loggin.error(`${listPath} does not found`);
         process.exit(1);
       }
       const namesList = fs.readFileSync(listPath, "utf-8").split("\n");
 
       if (namesList[0] === "") {
-        looging("Empty List", "error");
+        Loggin.error("Empty List");
         process.exit(1);
       }
 
-      looging("List read", "success");
+      Loggin.success("List read");
       return namesList;
     } catch (error) {
       this.errorHandler(error);
@@ -53,8 +53,8 @@ export class FileSystemService {
   }
 
   private static errorHandler(error: unknown) {
-    if (error instanceof Error) looging(error.message, "error");
-    else looging("There has been an error", "error");
+    if (error instanceof Error) Loggin.error(error.message);
+    else Loggin.error("There has been an error");
     process.exit(1);
   }
 }

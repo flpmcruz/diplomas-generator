@@ -2,7 +2,7 @@ console.time("Time elapsed".bgCyan);
 import path from "path";
 import PDFDocument from "pdfkit";
 import { createCanvas, loadImage, registerFont } from "canvas";
-import { looging } from "./infraestructure/external-service/logging.js";
+import { Loggin } from "./infraestructure/external-service/logging.js";
 import { Title } from "./Title.js";
 import { CreatePDF } from "./CreatePDF.js";
 import { FileSystemService } from "./infraestructure/external-service/FileSystemService.js";
@@ -63,17 +63,17 @@ export async function generateTitles(
   // validate if the output directory exists
   FileSystemService.recreateDir(outputImgPath, outputPdfPath);
 
-  looging("Reading the list of names", "main");
+  Loggin.main("Reading the list of names");
 
   if (typeof inputNames === "string" && inputNames.length > 0)
     inputNames = FileSystemService.readList(inputNames) || [];
 
   if (!Array.isArray(inputNames) || inputNames.length === 0) {
-    looging("No names found", "error");
+    Loggin.error("No names found");
     return;
   }
 
-  looging("Generating images", "main");
+  Loggin.main("Generating images");
   // Cargar la imagen del título
   const imageBaseTitle = await loadImage(inputTitlePath);
   const width = imageBaseTitle.width;
@@ -103,16 +103,16 @@ export async function generateTitles(
   await Promise.all(renderPromises);
 
   /*  */
-  looging("Images generated", "success");
-  looging("-".repeat(10));
-  looging("Generating PDF", "main");
+  Loggin.success("Images generated");
+  Loggin.default("-".repeat(15));
+  Loggin.main("Generating PDF");
   /*  */
 
   const imagenesPaths: string[] | void =
     FileSystemService.readDirContent(outputImgPath);
 
   if (!Array.isArray(imagenesPaths)) {
-    looging("No images found to generate PDF", "error");
+    Loggin.error("No images found to generate PDF");
     console.timeEnd("Time elapsed".bgCyan);
     return;
   }
@@ -126,7 +126,7 @@ export async function generateTitles(
   convertPDF.render(imagenesPaths);
 
   /*  */
-  looging(`Count: ${imagenesPaths.length} titles`, "success");
-  looging("PDF generated", "success");
+  Loggin.success(`Count: ${imagenesPaths.length} titles`);
+  Loggin.success("PDF generated");
   console.timeEnd("Time elapsed".bgCyan);
 }
