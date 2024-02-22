@@ -1,5 +1,5 @@
-import fs from "fs";
-import PDFDocument from "pdfkit";
+import type PDFDocument from "pdfkit";
+import { FileSystemService } from "./infraestructure/external-service/FileSystemService.js";
 
 interface CreatePDFProps {
   doc: typeof PDFDocument;
@@ -23,7 +23,10 @@ export class CreatePDF {
 
   render = (imagenesPaths: string[]) => {
     // Crear el archivo PDF
-    const outputStream = fs.createWriteStream(this.outputPdfPath);
+    const outputStream = FileSystemService.createWriteStream(
+      this.outputPdfPath
+    );
+    if (!outputStream) process.exit(1);
     this.doc.pipe(outputStream);
 
     imagenesPaths.forEach((imagenPath) => {

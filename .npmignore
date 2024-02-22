@@ -6,3 +6,9 @@ tsconfig.json
 package.json
 package-lock.json
 src/*
+__tests__/*
+coverage/*
+jest.config.ts
+dist/__tests__/*
+dist/jest.config.js
+dist/jest.config.d.ts

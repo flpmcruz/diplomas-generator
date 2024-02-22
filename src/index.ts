@@ -1,12 +1,11 @@
 console.time("Time elapsed".bgCyan);
-import fs from "fs";
 import path from "path";
 import PDFDocument from "pdfkit";
 import { createCanvas, loadImage, registerFont } from "canvas";
-import { looging, messages } from "./logging.js";
+import { looging } from "./infraestructure/external-service/logging.js";
 import { Title } from "./Title.js";
 import { CreatePDF } from "./CreatePDF.js";
-import { recreateDir, readList } from "./validations.js";
+import { FileSystemService } from "./infraestructure/external-service/FileSystemService.js";
 
 interface generateTitlesProps {
   fontSize?: number;
@@ -62,19 +61,19 @@ export async function generateTitles(
     "./fonts/itcedscr.ttf";
 
   // validate if the output directory exists
-  recreateDir(outputImgPath, outputPdfPath);
+  FileSystemService.recreateDir(outputImgPath, outputPdfPath);
 
-  looging("Reading the list of names", messages.main);
+  looging("Reading the list of names", "main");
 
   if (typeof inputNames === "string" && inputNames.length > 0)
-    inputNames = readList(inputNames);
+    inputNames = FileSystemService.readList(inputNames) || [];
 
   if (!Array.isArray(inputNames) || inputNames.length === 0) {
-    looging("No names found", messages.error);
+    looging("No names found", "error");
     return;
   }
 
-  looging("Generating images", messages.main);
+  looging("Generating images", "main");
   // Cargar la imagen del título
   const imageBaseTitle = await loadImage(inputTitlePath);
   const width = imageBaseTitle.width;
@@ -103,13 +102,21 @@ export async function generateTitles(
   });
   await Promise.all(renderPromises);
 
-  looging("Images generated", messages.success);
-  looging("---------------------");
-  looging("Generating PDF", messages.main);
+  /*  */
+  looging("Images generated", "success");
+  looging("-".repeat(10));
+  looging("Generating PDF", "main");
+  /*  */
 
-  const imagenesPaths: string[] = fs
-    .readdirSync(outputImgPath)
-    .map((file) => `${outputImgPath}/${file}`);
+  const imagenesPaths: string[] | void =
+    FileSystemService.readDirContent(outputImgPath);
+
+  if (!Array.isArray(imagenesPaths)) {
+    looging("No images found to generate PDF", "error");
+    console.timeEnd("Time elapsed".bgCyan);
+    return;
+  }
+
   const convertPDF = new CreatePDF({
     doc: new PDFDocument(),
     outputPdfPath,
@@ -118,7 +125,8 @@ export async function generateTitles(
   });
   convertPDF.render(imagenesPaths);
 
-  looging(`Count: ${imagenesPaths.length} titles`, messages.success);
-  looging("PDF generated", messages.success);
+  /*  */
+  looging(`Count: ${imagenesPaths.length} titles`, "success");
+  looging("PDF generated", "success");
   console.timeEnd("Time elapsed".bgCyan);
 }

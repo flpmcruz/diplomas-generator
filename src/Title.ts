@@ -1,4 +1,4 @@
-import fs from "fs";
+import { FileSystemService } from "./infraestructure/external-service/FileSystemService.js";
 
 interface TitleProps {
   fontPath: string;
@@ -35,37 +35,25 @@ export class Title {
   private canvas: any;
   private ctx: any;
 
-  constructor({
-    fontPath,
-    fontSize,
-    color,
-    positionNameX,
-    positionNameY,
-    outputImgPath,
-    width,
-    height,
-    createCanvas,
-    registerFont,
-    imageBaseTitle,
-  }: TitleProps) {
-    this.fontPath = fontPath;
-    this.fontSize = fontSize;
-    this.color = color;
-    this.outputImgPath = outputImgPath;
-    this.width = width;
-    this.height = height;
-    this.positionNameX = positionNameX;
-    this.positionNameY = positionNameY;
-    this.createCanvas = createCanvas;
-    this.registerFont = registerFont;
-    this.imageBaseTitle = imageBaseTitle;
-    this.registerFont(this.fontPath, { family: "MiFuente" });
+  constructor(config: TitleProps) {
+    this.fontPath = config.fontPath;
+    this.fontSize = config.fontSize;
+    this.color = config.color;
+    this.outputImgPath = config.outputImgPath;
+    this.width = config.width;
+    this.height = config.height;
+    this.positionNameX = config.positionNameX;
+    this.positionNameY = config.positionNameY;
+    this.createCanvas = config.createCanvas;
+    this.registerFont = config.registerFont;
+    this.imageBaseTitle = config.imageBaseTitle;
+    this.registerFont(this.fontPath, { family: "MyFont" });
   }
 
   render({ name, imageName, imageQuality }: RenderProps): Promise<void> {
     this.canvas = this.createCanvas(this.width, this.height);
     this.ctx = this.canvas.getContext("2d");
-    this.ctx.font = `${this.fontSize}px 'MiFuente'`;
+    this.ctx.font = `${this.fontSize}px 'MyFont'`;
     this.ctx.fillStyle = this.color;
     this.ctx.textAlign = "center";
 
@@ -76,9 +64,11 @@ export class Title {
     this.ctx.fillText(name, this.positionNameX, this.positionNameY);
 
     // Guardar el lienzo como archivo JPEG en la carpeta de salida
-    const outputStream = fs.createWriteStream(
+    const outputStream = FileSystemService.createWriteStream(
       `${this.outputImgPath}/${imageName}`
     );
+    if (!outputStream) process.exit(1);
+
     const stream = this.canvas.createJPEGStream({
       imageQuality, // Calidad de compresión JPEG
       chromaSubsampling: false, // Desactivar submuestreo de croma para evitar artefactos de color
