@@ -3,7 +3,11 @@
 # Basic Usage
 
 ```js
-import { generateTitles } from "diplomas-generator";
+const { generateTitles } = require("diplomas-generator");
+
+// or add the following line to your package.json to use ES6 import
+// "type": "module"
+// import { generateTitles } from "diplomas-generator";
 
 // All the parameters are optional, only the inputNames is required.
 const config = {
@@ -23,14 +27,16 @@ generateTitles(config);
 ```
 
 ** Important **
-This package uses the package [node-canvas](https://www.npmjs.com/package/canvas) to generate the diplomas, so you need to install the OS dependencies of this package to use it. See the OS specific instructions.
+This package uses the package [node-canvas](https://www.npmjs.com/package/canvas) to generate the diplomas, so you need to install the OS dependencies of this package to use it. See the OS specific instructions [here](https://www.npmjs.com/package/canvas)
 
 File names.txt should contain a list of names separated by new line.
 
 ```txt
-John Doe
+Maria Perez
 Patrick Smith
 Jane Doe
 ```
+
+`positionNameX` and `positionNameY` are the coordinates (px) of the name in the diploma. Use these parameters to adjust the position of the name in the diploma. We use these coordinates as a center of the name.
 
 ![Example of generated diploma.](example.jpg)

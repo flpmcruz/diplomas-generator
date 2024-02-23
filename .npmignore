@@ -10,5 +10,7 @@ __tests__/*
 coverage/*
 jest.config.ts
 dist/__tests__/*
+dist/output/*
 dist/jest.config.js
 dist/jest.config.d.ts
+output/*

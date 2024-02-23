@@ -5,3 +5,4 @@ src/data/names1.txt
 src/data/names2.txt
 dist/*
 coverage/*
+client/*

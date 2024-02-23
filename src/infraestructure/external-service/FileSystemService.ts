@@ -36,6 +36,14 @@ export class FileSystemService {
     }
   }
 
+  static checkFileExists(filePath: string) {
+    try {
+      return fs.existsSync(filePath);
+    } catch (error) {
+      return null;
+    }
+  }
+
   static createWriteStream(outputPath: string) {
     try {
       return fs.createWriteStream(outputPath);

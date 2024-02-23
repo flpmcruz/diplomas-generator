@@ -21,6 +21,16 @@ describe("Testing generateTitles", () => {
     expect(titles.length).toBe(config.inputNames.length);
   });
 
+  test("shoud generate pdf", async () => {
+    const config = {
+      outputPdfPath: "output/titles.pdf",
+      inputNames: ["Felipe", "Juan", "Pedro"],
+    };
+    await generateTitles(config);
+    const pdf = fs.readFileSync(config.outputPdfPath);
+    expect(pdf).toBeTruthy();
+  });
+
   test("shoud work with default config and path names.txt", async () => {
     const config = {
       inputNames: "__tests__/data/names.txt",

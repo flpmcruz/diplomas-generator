@@ -49,16 +49,23 @@ export async function generateTitles(
   let outputPdfPath = config?.outputPdfPath || "output/titles.pdf";
 
   let basePath = "node_modules/diplomas-generator/dist";
-  let inputTitlePath =
-    path.join(
-      path.resolve(),
-      config?.inputTitlePath || "src/image/title.jpg"
-    ) || path.join(path.resolve(), basePath, "src/image/title.jpg");
+  let inputTitlePath = path.join(
+    path.resolve(),
+    config?.inputTitlePath || `${basePath}/src/image/title.jpg`
+  );
   let inputNames = config?.inputNames || [];
 
-  let fontPath =
-    path.join(path.resolve(), config?.fontPath || "src/fonts/itcedscr.ttf") ||
-    path.join(path.resolve(), basePath, "src/fonts/itcedscr.ttf");
+  let fontPath = path.join(
+    path.resolve(),
+    config?.fontPath || `${basePath}/src/fonts/itcedscr.ttf`
+  );
+
+  // fallback to default values if the files are not found in development mode
+  if (!FileSystemService.checkFileExists(inputTitlePath))
+    inputTitlePath = path.join(path.resolve(), `src/image/title.jpg`);
+  if (!FileSystemService.checkFileExists(fontPath))
+    fontPath = path.join(path.resolve(), `src/fonts/itcedscr.ttf`);
+  //
 
   // validate if the output directory exists
   FileSystemService.recreateDir(outputImgPath, outputPdfPath);
@@ -95,7 +102,7 @@ export async function generateTitles(
 
   const renderPromises = inputNames.map((name, index) => {
     return title.render({
-      name,
+      name: name.trim(),
       imageName: `${index + 1}.jpg`,
       imageQuality,
     });
