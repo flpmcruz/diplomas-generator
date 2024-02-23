@@ -40,7 +40,6 @@ interface generateTitlesProps {
 export async function generateTitles(
   config: generateTitlesProps
 ): Promise<void> {
-  let basePath = "node_modules/diplomas-generator/dist/src";
   let fontSize = config?.fontSize || 220;
   let positionNameX = config?.positionNameX || 1625;
   let positionNameY = config?.positionNameY || 950;
@@ -49,16 +48,17 @@ export async function generateTitles(
   let outputImgPath = config?.outputImgPath || "output/img";
   let outputPdfPath = config?.outputPdfPath || "output/titles.pdf";
 
+  let basePath = "node_modules/diplomas-generator/dist";
   let inputTitlePath =
-    config?.inputTitlePath ||
-    path.join(path.resolve(), basePath, "image/title.jpg") ||
-    "./image/title.jpg";
+    path.join(
+      path.resolve(),
+      config?.inputTitlePath || "src/image/title.jpg"
+    ) || path.join(path.resolve(), basePath, "src/image/title.jpg");
   let inputNames = config?.inputNames || [];
 
   let fontPath =
-    config?.fontPath ||
-    path.join(path.resolve(), basePath, "fonts/itcedscr.ttf") ||
-    "./fonts/itcedscr.ttf";
+    path.join(path.resolve(), config?.fontPath || "src/fonts/itcedscr.ttf") ||
+    path.join(path.resolve(), basePath, "src/fonts/itcedscr.ttf");
 
   // validate if the output directory exists
   FileSystemService.recreateDir(outputImgPath, outputPdfPath);
