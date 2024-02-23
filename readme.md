@@ -3,7 +3,7 @@
 # Basic Usage
 
 ```js
-import { generateTitle } from "titles-generator";
+import { generateTitles } from "diplomas-generator";
 
 // All the parameters are optional, only the inputNames is required.
 const config = {
@@ -13,7 +13,7 @@ const config = {
   positionNameY: 950,
   imageQuality: 0.9,
   fontPath: "src/fonts/itcedscr.ttf",
-  inputTitlePath: "src/image/title.jpg",
+  inputTitlePath: "title.jpg",
   outputImgPath: "output/img",
   outputPdfPath: "output/titles.pdf",
   inputNames: "src/data/names.txt", // or ["Felipe", "Juan", "Pedro"] *Required
