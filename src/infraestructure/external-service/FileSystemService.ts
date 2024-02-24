@@ -18,18 +18,13 @@ export class FileSystemService {
 
   static readList(listPath: string) {
     try {
-      if (!fs.existsSync(listPath)) {
-        Loggin.error(`${listPath} does not found`);
-        process.exit(1);
-      }
+      if (!fs.existsSync(listPath))
+        throw new Error(`${listPath} does not found`);
+
       const namesList = fs.readFileSync(listPath, "utf-8").split("\n");
 
-      if (namesList[0] === "") {
-        Loggin.error("Empty List");
-        process.exit(1);
-      }
+      if (namesList[0] === "") throw new Error("Empty List");
 
-      Loggin.success("List read");
       return namesList;
     } catch (error) {
       this.errorHandler(error);

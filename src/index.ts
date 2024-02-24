@@ -41,10 +41,10 @@ export async function generateTitles(
   config: generateTitlesProps
 ): Promise<void> {
   let fontSize = config?.fontSize || 220;
-  let positionNameX = config?.positionNameX || 1625;
-  let positionNameY = config?.positionNameY || 950;
-  let imageQuality = config?.imageQuality || 0.9;
   let color = config?.color || "#000000";
+  let positionNameX = config?.positionNameX;
+  let positionNameY = config?.positionNameY;
+  let imageQuality = config?.imageQuality || 0.9;
   let outputImgPath = config?.outputImgPath || "output/img";
   let outputPdfPath = config?.outputPdfPath || "output/titles.pdf";
 
@@ -79,12 +79,29 @@ export async function generateTitles(
     Loggin.error("No names found");
     return;
   }
-
+  /*  */
+  Loggin.success("List read");
+  Loggin.default("-".repeat(15).dim);
   Loggin.main("Generating images");
+  /*  */
   // Cargar la imagen del título
   const imageBaseTitle = await loadImage(inputTitlePath);
   const width = imageBaseTitle.width;
   const height = imageBaseTitle.height;
+  Loggin.main(`Title size: ${width} x ${height}`);
+
+  if (!positionNameX) {
+    positionNameX = Math.round(width / 2);
+    Loggin.warning(
+      `positionNameX not provided, using the width center of the image: ${positionNameX}`
+    );
+  }
+  if (!positionNameY) {
+    positionNameY = Math.round(height / 2);
+    Loggin.warning(
+      `positionNameY not provided, using the height center of the image: ${positionNameY}`
+    );
+  }
 
   const title = new Title({
     fontPath,
@@ -111,7 +128,7 @@ export async function generateTitles(
 
   /*  */
   Loggin.success("Images generated");
-  Loggin.default("-".repeat(15));
+  Loggin.default("-".repeat(15).dim);
   Loggin.main("Generating PDF");
   /*  */
 
@@ -133,7 +150,6 @@ export async function generateTitles(
   convertPDF.render(imagenesPaths);
 
   /*  */
-  Loggin.success(`Count: ${imagenesPaths.length} titles`);
-  Loggin.success("PDF generated");
+  Loggin.success(`PDF generated with ${imagenesPaths.length} titles`);
   console.timeEnd("Time elapsed".bgCyan);
 }
