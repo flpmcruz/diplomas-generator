@@ -3,11 +3,7 @@
 # Basic Usage
 
 ```js
-const { generateTitles } = require("diplomas-generator");
-
-// or add the following line to your package.json to use ES6 import
-// "type": "module"
-// import { generateTitles } from "diplomas-generator";
+import { generateTitles } from "diplomas-generator";
 
 // All the parameters are optional, only the inputNames is required.
 const config = {
