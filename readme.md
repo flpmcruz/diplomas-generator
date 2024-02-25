@@ -23,7 +23,7 @@ generateTitles(config);
 ```
 
 ** Important **
-This package uses the package [node-canvas](https://www.npmjs.com/package/canvas) to generate the diplomas, so you need to install the OS dependencies of this package to use it. See the OS specific instructions [here](https://www.npmjs.com/package/canvas)
+This package uses the package [node-canvas](https://www.npmjs.com/package/canvas) to generate the diplomas, so in some cases you need to install the OS dependencies of this package to use it. See the OS specific instructions [here](https://www.npmjs.com/package/canvas)
 
 File names.txt should contain a list of names separated by new line.
 
@@ -33,6 +33,18 @@ Patrick Smith
 Jane Doe
 ```
 
-`positionNameX` and `positionNameY` are the coordinates (px) of the name in the diploma. Use these parameters to adjust the position of the name in the diploma. We use these coordinates as a center of the name.
+You can also get dimensions of the title image using the static method `LoadImage.load` :
 
-![Example of generated diploma.](example.jpg)
+```js
+import { LoadImage } from "diplomas-generator";
+
+const image = await LoadImage.load("path/title.jpg");
+if (image) {
+  const { width, height } = image;
+}
+// Do something with the dimensions
+```
+
+`positionNameX` and `positionNameY` are the coordinates (px) of the name in the diploma. By default, the name is centered in the diploma. Use these parameters to adjust the position of the name in the diploma. We use these coordinates as a center of the name.
+
+![Example of generated diploma.](https://flpmcruz.github.io/diplomas-generator/example.jpg)

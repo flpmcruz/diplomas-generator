@@ -1,11 +1,17 @@
 console.time("Time elapsed".bgCyan);
+
 import path from "path";
 import PDFDocument from "pdfkit";
-import { createCanvas, loadImage, registerFont } from "canvas";
-import { Loggin } from "./infraestructure/external-service/logging.js";
+import { createCanvas, registerFont } from "canvas";
+
 import { Title } from "./Title.js";
 import { CreatePDF } from "./CreatePDF.js";
-import { FileSystemService } from "./infraestructure/external-service/FileSystemService.js";
+import {
+  Loggin,
+  FileSystemService,
+  LoadImage,
+} from "./infraestructure/external-service/index.js";
+export { LoadImage } from "./infraestructure/external-service/index.js";
 
 interface generateTitlesProps {
   fontSize?: number;
@@ -84,12 +90,17 @@ export async function generateTitles(
   Loggin.default("-".repeat(15).dim);
   Loggin.main("Generating images");
   /*  */
-  // Cargar la imagen del título
-  const imageBaseTitle = await loadImage(inputTitlePath);
-  const width = imageBaseTitle.width;
-  const height = imageBaseTitle.height;
+
+  // Load the title image
+  const image = await LoadImage.load(inputTitlePath);
+  if (!image) {
+    Loggin.error("Error loading the title image");
+    return;
+  }
+  const { width, height, imageBaseTitle } = image;
   Loggin.main(`Title size: ${width} x ${height}`);
 
+  // Set position to the center if they are not provided
   if (!positionNameX) {
     positionNameX = Math.round(width / 2);
     Loggin.warning(
