@@ -16,3 +16,4 @@ dist/jest.config.d.ts
 output/*
 output2/*
 example.jpg
+*.env
