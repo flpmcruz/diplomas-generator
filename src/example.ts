@@ -11,8 +11,8 @@ const result = await generateTitles({
   inputTitlePath: "src/image/title.jpg",
   outputImgPath: "output/img",
   outputPdfPath: "output/titles.pdf",
-  enableLogging: true, // default "true"
-  exportPDF: false, // default "true"
+  // enableLogging: true, // default "true"
+  // exportPDF: true, // default "true"
 });
 
 result ? console.log("Success") : console.log("Error");

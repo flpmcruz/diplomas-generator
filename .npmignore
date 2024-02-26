@@ -14,4 +14,5 @@ dist/output/*
 dist/jest.config.js
 dist/jest.config.d.ts
 output/*
+output2/*
 example.jpg
