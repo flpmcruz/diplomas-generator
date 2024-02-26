@@ -1,4 +1,4 @@
-name: "publish npm package"
+name: "passing tests"
 
 on:
   push:

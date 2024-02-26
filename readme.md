@@ -1,5 +1,7 @@
 # Generate diplomas
 
+![tests](https://github.com/flpmcruz/diplomas-generator/actions/workflows/ci.yml/badge.svg)
+
 A versatile tool for generating diplomas and certificates from a list of names, with support for customizable designs and output formats like PDF.
 
 # Basic Usage
@@ -60,6 +62,6 @@ if (image) {
 | `outputPdfPath`  | Output path to save the generated diplomas as PDF files.                            |
 | `inputNames`\*   | File path for the text file containing the names. Can be an array (required).       |
 
-`positionNameX` and `positionNameY` are the coordinates (px) of the name in the diploma. By default, the name is centered in the diploma. Use these parameters to adjust the position of the name in the diploma. We use these coordinates as a center of the name.
+`positionNameX` and `positionNameY` are the coordinates (px) of the name in the diploma. By default, the name is centered in the diploma. Use these parameters to adjust the position of the name in the diploma.
 
 ![Example of generated diploma.](https://flpmcruz.github.io/diplomas-generator/example.jpg)
