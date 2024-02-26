@@ -66,13 +66,19 @@ export async function generateTitles(
     let basePath = "node_modules/diplomas-generator/dist";
     let inputTitlePath = path.join(
       path.resolve(),
-      config?.inputTitlePath || `${basePath}/src/image/title.jpg`
+      config?.inputTitlePath ||
+        `${
+          process.env.environment === "dev" ? "" : basePath
+        }/src/image/title.jpg`
     );
     let inputNames = config?.inputNames || [];
 
     let fontPath = path.join(
       path.resolve(),
-      config?.fontPath || `${basePath}/src/fonts/itcedscr.ttf`
+      config?.fontPath ||
+        `${
+          process.env.environment === "dev" ? "" : basePath
+        }/src/fonts/itcedscr.ttf`
     );
 
     const Loggin = new LoggingService(enableLogging);
