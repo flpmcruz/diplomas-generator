@@ -11,6 +11,7 @@ import { generateTitles } from "diplomas-generator";
 
 // All the parameters are optional, only the inputNames is required.
 const config = {
+  inputNames: "src/data/names.txt", // or ["Felipe", "Juan"] *Required
   // fontSize: 220,
   // color: "#000000",
   // positionNameX: 1625,
@@ -20,10 +21,13 @@ const config = {
   // inputTitlePath: "src/image/title.jpg",
   // outputImgPath: "output/img",
   // outputPdfPath: "output/titles.pdf",
-  inputNames: "src/data/names.txt", // or ["Felipe", "Juan", "Pedro"] *Required
+  // exportPDF: true, // default "true"
+  // enableLogging: "true" // default "true"
 };
 
-generateTitles(config);
+const result = await generateTitles(config); // Returns a boolean
+
+result ? console.log("Success") : console.log("Error");
 ```
 
 ** Important **
@@ -51,6 +55,7 @@ if (image) {
 
 | Parameter        | Description                                                                         |
 | ---------------- | ----------------------------------------------------------------------------------- |
+| `inputNames`\*   | File path for the text file containing the names. Can be an array (required).       |
 | `fontSize`       | Font size for the name on the diplomas.                                             |
 | `color`          | Text color for the name on the diplomas, in hexadecimal format.                     |
 | `positionNameX`  | X coordinate (in pixels) for the horizontal position of the name on the diplomas.   |
@@ -60,7 +65,8 @@ if (image) {
 | `inputTitlePath` | File path for the base image file of the title on the diplomas.                     |
 | `outputImgPath`  | Output path to save the generated diplomas as images.                               |
 | `outputPdfPath`  | Output path to save the generated diplomas as PDF files.                            |
-| `inputNames`\*   | File path for the text file containing the names. Can be an array (required).       |
+| `exportPDF`      | Boolean to enable or disable the export of the diplomas as PDF files.               |
+| `enableLogging`  | Boolean to enable or disable the logging of the process.                            |
 
 `positionNameX` and `positionNameY` are the coordinates (px) of the name in the diploma. By default, the name is centered in the diploma. Use these parameters to adjust the position of the name in the diploma.
 

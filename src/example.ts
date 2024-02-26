@@ -1,6 +1,7 @@
 import { generateTitles } from "./index.js";
 
-generateTitles({
+const result = await generateTitles({
+  inputNames: "src/data/names.txt", // or ["Felipe", "Juan"]
   fontSize: 220,
   color: "#000000",
   // positionNameX: 1653,
@@ -10,5 +11,8 @@ generateTitles({
   inputTitlePath: "src/image/title.jpg",
   outputImgPath: "output/img",
   outputPdfPath: "output/titles.pdf",
-  inputNames: "src/data/names.txt", // or ["Felipe", "Juan", "Pedro"]
+  enableLogging: true, // default "true"
+  exportPDF: false, // default "true"
 });
+
+result ? console.log("Success") : console.log("Error");

@@ -1,4 +1,4 @@
-import { FileSystemService } from "./infraestructure/external-service/index.js";
+import { type FileSystemService } from "./infraestructure/external-service/index.js";
 
 interface TitleProps {
   fontPath: string;
@@ -13,6 +13,7 @@ interface TitleProps {
   registerFont: any;
   imageBaseTitle: any;
   imageQuality: number;
+  fs: FileSystemService;
 }
 
 interface RenderProps {
@@ -35,6 +36,7 @@ export class Title {
   private imageQuality: number;
   private canvas: any;
   private ctx: any;
+  private fs: FileSystemService;
 
   constructor(config: TitleProps) {
     this.fontPath = config.fontPath;
@@ -49,6 +51,7 @@ export class Title {
     this.registerFont = config.registerFont;
     this.imageBaseTitle = config.imageBaseTitle;
     this.imageQuality = config.imageQuality;
+    this.fs = config.fs;
     this.registerFont(this.fontPath, { family: "MyFont" });
   }
 
@@ -66,7 +69,7 @@ export class Title {
     this.ctx.fillText(name, this.positionNameX, this.positionNameY);
 
     // Guardar el lienzo como archivo JPEG en la carpeta de salida
-    const outputStream = FileSystemService.createWriteStream(
+    const outputStream = this.fs.createWriteStream(
       `${this.outputImgPath}/${imageName}`
     );
     if (!outputStream) process.exit(1);

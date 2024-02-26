@@ -1,4 +1,3 @@
-import { expect } from "@jest/globals";
 import { LoadImage } from "../src/index.js";
 
 describe("Testing LoadImage", () => {

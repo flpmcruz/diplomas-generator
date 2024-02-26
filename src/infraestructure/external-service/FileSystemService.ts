@@ -1,9 +1,11 @@
 import fs from "fs";
 import path from "path";
-import { Loggin } from "./logging.js";
+import { type LoggingService } from "./LoggingService.js";
 
 export class FileSystemService {
-  static recreateDir(outputPath: string, outputPDF: string) {
+  constructor(readonly LoggingService: LoggingService) {}
+
+  recreateDir(outputPath: string, outputPDF: string) {
     try {
       if (fs.existsSync(outputPath)) fs.rmSync(outputPath, { recursive: true });
       fs.mkdirSync(outputPath, { recursive: true });
@@ -13,30 +15,28 @@ export class FileSystemService {
     }
   }
 
-  static readList(listPath: string) {
+  readList(listPath: string) {
     try {
       if (!fs.existsSync(listPath))
         throw new Error(`${listPath} does not found`);
 
       const namesList = fs.readFileSync(listPath, "utf-8").split("\n");
-
       if (namesList[0] === "") throw new Error("Empty List");
-
       return namesList;
     } catch (error) {
       this.errorHandler(error);
     }
   }
 
-  static checkFileExists(filePath: string) {
+  checkFileExists(filePath: string) {
     try {
       return fs.existsSync(filePath);
     } catch (error) {
-      return null;
+      this.errorHandler(error);
     }
   }
 
-  static createWriteStream(outputPath: string) {
+  createWriteStream(outputPath: string) {
     try {
       return fs.createWriteStream(outputPath);
     } catch (error) {
@@ -44,7 +44,7 @@ export class FileSystemService {
     }
   }
 
-  static readDirContent(Path: string): string[] | void {
+  readDirContent(Path: string): string[] | void {
     try {
       return fs.readdirSync(Path).map((file) => `${Path}/${file}`);
     } catch (error) {
@@ -52,9 +52,9 @@ export class FileSystemService {
     }
   }
 
-  private static errorHandler(error: unknown) {
-    if (error instanceof Error) Loggin.error(error.message);
-    else Loggin.error("There has been an error");
-    process.exit(1);
+  private errorHandler(error: unknown) {
+    if (error instanceof Error) this.LoggingService.error(error.message);
+    else this.LoggingService.error("There has been an error");
+    throw error;
   }
 }

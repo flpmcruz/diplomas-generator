@@ -1,4 +1,4 @@
-name: "passing tests"
+name: "tests & publish"
 
 on:
   push:

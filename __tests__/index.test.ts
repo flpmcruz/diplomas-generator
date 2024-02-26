@@ -1,5 +1,4 @@
 import fs from "fs";
-import { expect } from "@jest/globals";
 import { generateTitles } from "../src/index.js";
 
 describe("Testing generateTitles", () => {
