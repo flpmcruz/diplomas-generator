@@ -1,8 +1,8 @@
 {
   "name": "diplomas-generator",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "types": "dist/src/index.d.ts",
-  "description": "This is a simple project to generate diplomas from a list of names and save them as a PDF file.",
+  "description": "A versatile tool for generating diplomas and certificates from a list of names, with support for customizable designs and output formats like PDF.",
   "repository": {
     "type": "git",
     "url": "https://github.com/flpmcruz/diplomas-generator.git"
@@ -45,6 +45,18 @@
     "title",
     "generator",
     "pdf",
-    "canvas"
+    "canvas",
+    "diploma generator",
+    "diploma creator",
+    "certificate generator",
+    "certificate creator",
+    "diploma design",
+    "certificate design",
+    "diploma tool",
+    "certificate tool",
+    "diploma PDF",
+    "certificate PDF",
+    "names list generator",
+    "names list processor"
   ]
 }

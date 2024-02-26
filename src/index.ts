@@ -46,11 +46,11 @@ interface generateTitlesProps {
 export async function generateTitles(
   config: generateTitlesProps
 ): Promise<void> {
-  let fontSize = config?.fontSize || 220;
+  let fontSize = Number(config?.fontSize) || 220;
   let color = config?.color || "#000000";
-  let positionNameX = config?.positionNameX;
-  let positionNameY = config?.positionNameY;
-  let imageQuality = config?.imageQuality || 0.9;
+  let positionNameX = Number(config?.positionNameX);
+  let positionNameY = Number(config?.positionNameY);
+  let imageQuality = Number(config?.imageQuality) || 0.9;
   let outputImgPath = config?.outputImgPath || "output/img";
   let outputPdfPath = config?.outputPdfPath || "output/titles.pdf";
 
@@ -124,6 +124,7 @@ export async function generateTitles(
     width,
     height,
     imageBaseTitle,
+    imageQuality,
     createCanvas,
     registerFont,
   });
@@ -132,7 +133,6 @@ export async function generateTitles(
     return title.render({
       name: name.trim(),
       imageName: `${index + 1}.jpg`,
-      imageQuality,
     });
   });
   await Promise.all(renderPromises);

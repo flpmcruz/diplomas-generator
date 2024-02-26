@@ -1,16 +1,13 @@
 import fs from "fs";
+import path from "path";
 import { Loggin } from "./logging.js";
 
 export class FileSystemService {
   static recreateDir(outputPath: string, outputPDF: string) {
     try {
-      if (!fs.existsSync(outputPath))
-        fs.mkdirSync(outputPath, { recursive: true });
-      else {
-        fs.rmSync(outputPath, { recursive: true });
-        fs.existsSync(outputPDF) && fs.unlinkSync(outputPDF);
-        fs.mkdirSync(outputPath, { recursive: true });
-      }
+      if (fs.existsSync(outputPath)) fs.rmSync(outputPath, { recursive: true });
+      fs.mkdirSync(outputPath, { recursive: true });
+      fs.mkdirSync(path.dirname(outputPDF), { recursive: true });
     } catch (error) {
       this.errorHandler(error);
     }

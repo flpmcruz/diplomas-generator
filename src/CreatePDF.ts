@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import { FileSystemService } from "./infraestructure/external-service/FileSystemService.js";
+import { FileSystemService } from "./infraestructure/external-service/index.js";
 
 interface CreatePDFProps {
   doc: typeof PDFDocument;

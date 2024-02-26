@@ -1,4 +1,4 @@
-import { FileSystemService } from "./infraestructure/external-service/FileSystemService.js";
+import { FileSystemService } from "./infraestructure/external-service/index.js";
 
 interface TitleProps {
   fontPath: string;
@@ -12,12 +12,12 @@ interface TitleProps {
   createCanvas: any;
   registerFont: any;
   imageBaseTitle: any;
+  imageQuality: number;
 }
 
 interface RenderProps {
   name: string;
   imageName: string;
-  imageQuality: number;
 }
 
 export class Title {
@@ -32,6 +32,7 @@ export class Title {
   private createCanvas: any;
   private registerFont: any;
   private imageBaseTitle: any;
+  private imageQuality: number;
   private canvas: any;
   private ctx: any;
 
@@ -47,10 +48,11 @@ export class Title {
     this.createCanvas = config.createCanvas;
     this.registerFont = config.registerFont;
     this.imageBaseTitle = config.imageBaseTitle;
+    this.imageQuality = config.imageQuality;
     this.registerFont(this.fontPath, { family: "MyFont" });
   }
 
-  render({ name, imageName, imageQuality }: RenderProps): Promise<void> {
+  render({ name, imageName }: RenderProps): Promise<void> {
     this.canvas = this.createCanvas(this.width, this.height);
     this.ctx = this.canvas.getContext("2d");
     this.ctx.font = `${this.fontSize}px 'MyFont'`;
@@ -70,7 +72,7 @@ export class Title {
     if (!outputStream) process.exit(1);
 
     const stream = this.canvas.createJPEGStream({
-      imageQuality, // Calidad de compresión JPEG
+      imageQuality: this.imageQuality, // Calidad de compresión JPEG
       chromaSubsampling: false, // Desactivar submuestreo de croma para evitar artefactos de color
     });
 
