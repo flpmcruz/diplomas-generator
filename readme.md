@@ -14,6 +14,7 @@ const config = {
   inputNames: "src/data/names.txt", // or ["Felipe", "Juan"] *Required
   // fontSize: 220,
   // color: "#000000",
+  // textAlign: "center", // or "left"|"right"|"start"|"end"
   // positionNameX: 1625,
   // positionNameY: 950,
   // imageQuality: 0.9,
@@ -53,20 +54,21 @@ if (image) {
 }
 ```
 
-| Parameter        | Description                                                                         |
-| ---------------- | ----------------------------------------------------------------------------------- |
-| `inputNames`\*   | File path for the text file containing the names. Can be an array (required).       |
-| `fontSize`       | Font size for the name on the diplomas.                                             |
-| `color`          | Text color for the name on the diplomas, in hexadecimal format.                     |
-| `positionNameX`  | X coordinate (in pixels) for the horizontal position of the name on the diplomas.   |
-| `positionNameY`  | Y coordinate (in pixels) for the vertical position of the name on the diplomas.     |
-| `imageQuality`   | Quality of the base image of the title on the diplomas, as a value between 0 and 1. |
-| `fontPath`       | File path for the text font for the names on the diplomas.                          |
-| `inputTitlePath` | File path for the base image file of the title on the diplomas.                     |
-| `outputImgPath`  | Output path to save the generated diplomas as images.                               |
-| `outputPdfPath`  | Output path to save the generated diplomas as PDF files.                            |
-| `exportPDF`      | Boolean to enable or disable the export of the diplomas as PDF files.               |
-| `enableLogging`  | Boolean to enable or disable the logging of the process.                            |
+| Parameter        | Description                                                                                  |
+| ---------------- | -------------------------------------------------------------------------------------------- |
+| `inputNames`\*   | File path for the text file containing the names. Can be an array (required).                |
+| `fontSize`       | Font size for the name on the diplomas.                                                      |
+| `color`          | Text color for the name on the diplomas, in hexadecimal format.                              |
+| `textAlign`      | Horizontal alignment for the name on the diplomas. "center", "start", "end", "left", "right" |
+| `positionNameX`  | X coordinate (in pixels) for the horizontal position of the name on the diplomas.            |
+| `positionNameY`  | Y coordinate (in pixels) for the vertical position of the name on the diplomas.              |
+| `imageQuality`   | Quality of the base image of the title on the diplomas, as a value between 0 and 1.          |
+| `fontPath`       | File path for the text font for the names on the diplomas.                                   |
+| `inputTitlePath` | File path for the base image file of the title on the diplomas.                              |
+| `outputImgPath`  | Output path to save the generated diplomas as images.                                        |
+| `outputPdfPath`  | Output path to save the generated diplomas as PDF files.                                     |
+| `exportPDF`      | Boolean to enable or disable the export of the diplomas as PDF files.                        |
+| `enableLogging`  | Boolean to enable or disable the logging of the process.                                     |
 
 `positionNameX` and `positionNameY` are the coordinates (px) of the name in the diploma. By default, the name is centered in the diploma. Use these parameters to adjust the position of the name in the diploma.
 

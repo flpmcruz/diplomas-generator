@@ -1,18 +1,22 @@
 import { type FileSystemService } from "./infraestructure/external-service/index.js";
 
+export type TextAlign = "center" | "left" | "right" | "start" | "end";
+
 interface TitleProps {
   fontPath: string;
   color: string;
   fontSize: number;
+  textAlign: TextAlign;
   positionNameX: number;
   positionNameY: number;
   outputImgPath: string;
   width: number;
   height: number;
-  createCanvas: any;
-  registerFont: any;
   imageBaseTitle: any;
   imageQuality: number;
+  /*  */
+  createCanvas: any;
+  registerFont: any;
   fs: FileSystemService;
 }
 
@@ -24,6 +28,7 @@ interface RenderProps {
 export class Title {
   private fontPath: string;
   private fontSize: number;
+  private textAlign: TextAlign;
   private color: string;
   private positionNameX: number;
   private positionNameY: number;
@@ -34,24 +39,28 @@ export class Title {
   private registerFont: any;
   private imageBaseTitle: any;
   private imageQuality: number;
+
+  private fs: FileSystemService;
   private canvas: any;
   private ctx: any;
-  private fs: FileSystemService;
 
   constructor(config: TitleProps) {
     this.fontPath = config.fontPath;
     this.fontSize = config.fontSize;
+    this.textAlign = config.textAlign;
     this.color = config.color;
     this.outputImgPath = config.outputImgPath;
     this.width = config.width;
     this.height = config.height;
     this.positionNameX = config.positionNameX;
     this.positionNameY = config.positionNameY;
-    this.createCanvas = config.createCanvas;
-    this.registerFont = config.registerFont;
     this.imageBaseTitle = config.imageBaseTitle;
     this.imageQuality = config.imageQuality;
+
     this.fs = config.fs;
+    this.createCanvas = config.createCanvas;
+    this.registerFont = config.registerFont;
+
     this.registerFont(this.fontPath, { family: "MyFont" });
   }
 
@@ -60,7 +69,7 @@ export class Title {
     this.ctx = this.canvas.getContext("2d");
     this.ctx.font = `${this.fontSize}px 'MyFont'`;
     this.ctx.fillStyle = this.color;
-    this.ctx.textAlign = "center";
+    this.ctx.textAlign = this.textAlign;
 
     // Dibujar la imagen base del título en el lienzo
     this.ctx.drawImage(this.imageBaseTitle, 0, 0, this.width, this.height);
@@ -72,7 +81,7 @@ export class Title {
     const outputStream = this.fs.createWriteStream(
       `${this.outputImgPath}/${imageName}`
     );
-    if (!outputStream) process.exit(1);
+    if (!outputStream) return Promise.reject();
 
     const stream = this.canvas.createJPEGStream({
       imageQuality: this.imageQuality, // Calidad de compresión JPEG

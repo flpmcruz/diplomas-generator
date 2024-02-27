@@ -8,6 +8,9 @@ export class FileSystemService {
   recreateDir(outputPath: string, outputPDF: string) {
     try {
       if (fs.existsSync(outputPath)) fs.rmSync(outputPath, { recursive: true });
+      if (fs.existsSync(path.dirname(outputPDF)))
+        fs.rmSync(path.dirname(outputPDF), { recursive: true });
+
       fs.mkdirSync(outputPath, { recursive: true });
       fs.mkdirSync(path.dirname(outputPDF), { recursive: true });
     } catch (error) {
@@ -53,8 +56,8 @@ export class FileSystemService {
   }
 
   private errorHandler(error: unknown) {
-    if (error instanceof Error) this.LoggingService.error(error.message);
-    else this.LoggingService.error("There has been an error");
+    // if (error instanceof Error) this.LoggingService.error(error.message);
+    // else this.LoggingService.error("There has been an error");
     throw error;
   }
 }

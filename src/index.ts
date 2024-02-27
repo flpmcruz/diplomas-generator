@@ -4,7 +4,7 @@ import path from "path";
 import PDFDocument from "pdfkit";
 import { createCanvas, registerFont } from "canvas";
 
-import { Title } from "./Title.js";
+import { TextAlign, Title } from "./Title.js";
 import { CreatePDF } from "./CreatePDF.js";
 import {
   LoggingService,
@@ -16,6 +16,7 @@ export { LoadImage } from "./infraestructure/external-service/index.js";
 interface generateTitlesProps {
   inputNames: string[] | string;
   fontSize?: number;
+  textAlign?: TextAlign;
   color?: string;
   positionNameX?: number;
   positionNameY?: number;
@@ -53,6 +54,7 @@ export async function generateTitles(
   try {
     let fontSize = Number(config?.fontSize) || 220;
     let color = config?.color || "#000000";
+    let textAlign = config?.textAlign || "center";
     let positionNameX = Number(config?.positionNameX);
     let positionNameY = Number(config?.positionNameY);
     let imageQuality = Number(config?.imageQuality) || 0.9;
@@ -63,67 +65,76 @@ export async function generateTitles(
     let enableLogging =
       typeof config?.enableLogging === "boolean" ? config.enableLogging : true;
 
-    let basePath = "node_modules/diplomas-generator/dist";
+    let basePath = "node_modules/diplomas-generator/dist/src";
     let inputTitlePath = path.join(
       path.resolve(),
-      config?.inputTitlePath || `${basePath}/src/image/title.jpg`
+      config?.inputTitlePath || `${basePath}/image/title.jpg`
     );
     let inputNames = config?.inputNames || [];
 
     let fontPath = path.join(
       path.resolve(),
-      config?.fontPath || `${basePath}/src/fonts/itcedscr.ttf`
+      config?.fontPath || `${basePath}/fonts/itcedscr.ttf`
     );
 
-    const Loggin = new LoggingService(enableLogging);
-    const fs = new FileSystemService(Loggin);
+    const Logging = new LoggingService(enableLogging);
+    const fs = new FileSystemService(Logging);
+
     // validations
     fs.checkFileExists(inputTitlePath);
     fs.checkFileExists(fontPath);
     fs.recreateDir(outputImgPath, outputPdfPath);
 
-    Loggin.main("Reading the list of names");
+    if (
+      textAlign !== "center" &&
+      textAlign !== "left" &&
+      textAlign !== "right" &&
+      textAlign !== "start" &&
+      textAlign !== "end"
+    )
+      textAlign = "center";
+
+    Logging.main("Reading the list of names");
 
     if (typeof inputNames === "string" && inputNames.length > 0)
       inputNames = fs.readList(inputNames) || [];
 
-    if (!Array.isArray(inputNames) || inputNames.length === 0) {
-      Loggin.error("No names found");
-      return false;
-    }
+    if (!Array.isArray(inputNames) || inputNames.length === 0)
+      throw new Error("Error reading the list of names");
+
     /*  */
-    Loggin.success("List read");
-    Loggin.default("-".repeat(15));
-    Loggin.main("Generating images");
+    Logging.success("List read");
+    Logging.default("-".repeat(15));
+    Logging.main("Generating images");
     /*  */
 
     // Load the title image
     const image = await LoadImage.load(inputTitlePath);
-    if (!image) {
-      Loggin.error("Error loading the title image");
-      return false;
-    }
+    if (!image) throw new Error("Error loading the title image");
+
     const { width, height, imageBaseTitle } = image;
-    if (enableLogging) Loggin.main(`Title size: ${width} x ${height}`);
+    Logging.main(`Title size: ${width} x ${height}`);
 
     // Set position to the center if they are not provided
     if (!positionNameX) {
       positionNameX = Math.round(width / 2);
-      Loggin.warning(
+      Logging.warning(
         `positionNameX not provided, using the width center of the image: ${positionNameX}`
       );
     }
     if (!positionNameY) {
       positionNameY = Math.round(height / 2);
-      Loggin.warning(
+      Logging.warning(
         `positionNameY not provided, using the height center of the image: ${positionNameY}`
       );
     }
 
     const title = new Title({
+      /*  */
       fontPath,
       color,
       fontSize,
+      textAlign,
       outputImgPath,
       positionNameX,
       positionNameY,
@@ -131,6 +142,8 @@ export async function generateTitles(
       height,
       imageBaseTitle,
       imageQuality,
+
+      /* Dependencies injection */
       fs,
       createCanvas,
       registerFont,
@@ -144,34 +157,36 @@ export async function generateTitles(
     });
     await Promise.all(renderPromises);
 
-    /*  */
-    Loggin.success("Images generated");
-    Loggin.default("-".repeat(15));
-    /*  */
-
     const imagenesPaths: string[] | void = fs.readDirContent(outputImgPath);
 
-    if (!Array.isArray(imagenesPaths)) {
-      Loggin.error("No images found to generate PDF");
-      console.timeEnd("Time elapsed generating titles");
-      return false;
-    }
+    if (!Array.isArray(imagenesPaths) || imagenesPaths?.length === 0)
+      throw new Error("Error generating titles images");
+
+    /*  */
+    Logging.success("Images generated");
+    Logging.default("-".repeat(15));
+    /*  */
 
     if (exportPDF) {
-      Loggin.main("Generating PDF");
+      Logging.main("Generating PDF");
       new CreatePDF({
-        doc: new PDFDocument(),
-        fs,
+        /*  */
         outputPdfPath,
         width,
         height,
+
+        /* Dependencies injection */
+        doc: new PDFDocument(),
+        fs,
       }).render(imagenesPaths);
-      Loggin.success(`PDF generated with ${imagenesPaths.length} titles`);
+      Logging.success(`PDF generated with ${imagenesPaths.length} titles`);
     }
 
     console.timeEnd("Time elapsed generating titles");
     return true;
   } catch (error) {
+    if (error instanceof Error) console.error(error.message);
+    else console.error("There has been an error");
     return false;
   }
 }
