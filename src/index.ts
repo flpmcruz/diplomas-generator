@@ -11,6 +11,7 @@ import {
   FileSystemService,
   LoadImage,
 } from "./infraestructure/external-service/index.js";
+import { InputsValidator } from "./utils/Validations.js";
 export { LoadImage } from "./infraestructure/external-service/index.js";
 
 interface generateTitlesProps {
@@ -36,6 +37,7 @@ interface generateTitlesProps {
  * generateTitles({
  *  inputNames: "src/data/names.txt", // or ["Felipe", "Juan"]
  *  fontSize: 220,
+ *  textAlign: "center",
  *  color: "#000000",
  *  positionNameX: 1653,
  *  positionNameY: 950,
@@ -52,30 +54,44 @@ export async function generateTitles(
   config: generateTitlesProps
 ): Promise<boolean> {
   try {
-    let fontSize = Number(config?.fontSize) || 220;
-    let color = config?.color || "#000000";
-    let textAlign = config?.textAlign || "center";
+    let exportPDF = InputsValidator.isBoolean(config?.exportPDF);
+    let enableLogging = InputsValidator.isBoolean(config?.enableLogging);
+
+    let color = InputsValidator.isHexadecimalColor(config?.color);
+    let textAlign = InputsValidator.isValidTextAlign(config?.textAlign);
+    let fontSize = InputsValidator.isValidFontSize(config?.fontSize);
+
     let positionNameX = Number(config?.positionNameX);
     let positionNameY = Number(config?.positionNameY);
-    let imageQuality = Number(config?.imageQuality) || 0.9;
-    let outputImgPath = config?.outputImgPath || "output/img";
-    let outputPdfPath = config?.outputPdfPath || "output/titles.pdf";
-    let exportPDF =
-      typeof config?.exportPDF === "boolean" ? config.exportPDF : true;
-    let enableLogging =
-      typeof config?.enableLogging === "boolean" ? config.enableLogging : true;
-
-    let basePath = "node_modules/diplomas-generator/dist/src";
-    let inputTitlePath = path.join(
-      path.resolve(),
-      config?.inputTitlePath || `${basePath}/image/title.jpg`
+    let imageQuality = InputsValidator.isValidImageQuality(
+      config?.imageQuality
     );
+
     let inputNames = config?.inputNames || [];
 
-    let fontPath = path.join(
-      path.resolve(),
-      config?.fontPath || `${basePath}/fonts/itcedscr.ttf`
+    let outputImgPath = config?.outputImgPath || "output/img";
+    let outputPdfPath = config?.outputPdfPath || "output/titles.pdf";
+
+    let basePath = "node_modules/diplomas-generator/dist/src";
+
+    let inputTitlePath = InputsValidator.isValidPath(
+      config?.inputTitlePath,
+      `${basePath}/image/title.jpg`
     );
+    let fontPath = InputsValidator.isValidPath(
+      config?.fontPath,
+      `${basePath}/fonts/itcedscr.ttf`
+    );
+
+    // let inputTitlePath = path.join(
+    //   path.resolve(),
+    //   config?.inputTitlePath || `${basePath}/image/title.jpg`
+    // );
+
+    // let fontPath = path.join(
+    //   path.resolve(),
+    //   config?.fontPath || `${basePath}/fonts/itcedscr.ttf`
+    // );
 
     const Logging = new LoggingService(enableLogging);
     const fs = new FileSystemService(Logging);
@@ -84,15 +100,6 @@ export async function generateTitles(
     fs.checkFileExists(inputTitlePath);
     fs.checkFileExists(fontPath);
     fs.recreateDir(outputImgPath, outputPdfPath);
-
-    if (
-      textAlign !== "center" &&
-      textAlign !== "left" &&
-      textAlign !== "right" &&
-      textAlign !== "start" &&
-      textAlign !== "end"
-    )
-      textAlign = "center";
 
     Logging.main("Reading the list of names");
 
@@ -185,7 +192,7 @@ export async function generateTitles(
     console.timeEnd("Time elapsed generating titles");
     return true;
   } catch (error) {
-    if (error instanceof Error) console.error(error.message);
+    if (error instanceof Error) console.log(error.message);
     else console.error("There has been an error");
     return false;
   }

@@ -14,7 +14,7 @@ export class FileSystemService {
       fs.mkdirSync(outputPath, { recursive: true });
       fs.mkdirSync(path.dirname(outputPDF), { recursive: true });
     } catch (error) {
-      this.errorHandler(error);
+      throw error;
     }
   }
 
@@ -27,7 +27,7 @@ export class FileSystemService {
       if (namesList[0] === "") throw new Error("Empty List");
       return namesList;
     } catch (error) {
-      this.errorHandler(error);
+      throw error;
     }
   }
 
@@ -35,7 +35,7 @@ export class FileSystemService {
     try {
       return fs.existsSync(filePath);
     } catch (error) {
-      this.errorHandler(error);
+      throw error;
     }
   }
 
@@ -43,7 +43,7 @@ export class FileSystemService {
     try {
       return fs.createWriteStream(outputPath);
     } catch (error) {
-      this.errorHandler(error);
+      throw error;
     }
   }
 
@@ -51,13 +51,7 @@ export class FileSystemService {
     try {
       return fs.readdirSync(Path).map((file) => `${Path}/${file}`);
     } catch (error) {
-      this.errorHandler(error);
+      throw error;
     }
-  }
-
-  private errorHandler(error: unknown) {
-    // if (error instanceof Error) this.LoggingService.error(error.message);
-    // else this.LoggingService.error("There has been an error");
-    throw error;
   }
 }
