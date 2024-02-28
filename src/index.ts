@@ -1,10 +1,9 @@
 console.time("Time elapsed generating titles");
 
-import path from "path";
 import PDFDocument from "pdfkit";
 import { createCanvas, registerFont } from "canvas";
 
-import { TextAlign, Title } from "./Title.js";
+import { Title } from "./Title.js";
 import { CreatePDF } from "./CreatePDF.js";
 import {
   LoggingService,
@@ -12,12 +11,13 @@ import {
   LoadImage,
 } from "./infraestructure/external-service/index.js";
 import { InputsValidator } from "./utils/Validations.js";
+import { OUTPUTIMGPATH, OUTPUTPDFPATH } from "./constants/paths.js";
 export { LoadImage } from "./infraestructure/external-service/index.js";
 
 interface generateTitlesProps {
   inputNames: string[] | string;
   fontSize?: number;
-  textAlign?: TextAlign;
+  textAlign?: string;
   color?: string;
   positionNameX?: number;
   positionNameY?: number;
@@ -56,56 +56,37 @@ export async function generateTitles(
   try {
     let exportPDF = InputsValidator.isBoolean(config?.exportPDF);
     let enableLogging = InputsValidator.isBoolean(config?.enableLogging);
-
     let color = InputsValidator.isHexadecimalColor(config?.color);
     let textAlign = InputsValidator.isValidTextAlign(config?.textAlign);
     let fontSize = InputsValidator.isValidFontSize(config?.fontSize);
-
-    let positionNameX = Number(config?.positionNameX);
-    let positionNameY = Number(config?.positionNameY);
     let imageQuality = InputsValidator.isValidImageQuality(
       config?.imageQuality
     );
+    let positionNameX = Number(config?.positionNameX);
+    let positionNameY = Number(config?.positionNameY);
 
-    let inputNames = config?.inputNames || [];
+    let basePath = ["node_modules", "diplomas-generator", "dist", "src"];
+    let inputTitlePath = InputsValidator.isValidPath(config?.inputTitlePath, [
+      ...basePath,
+      "image",
+      "title.jpg",
+    ]);
+    let fontPath = InputsValidator.isValidPath(config?.fontPath, [
+      ...basePath,
+      "fonts",
+      "itcedscr.ttf",
+    ]);
 
-    let outputImgPath = config?.outputImgPath || "output/img";
-    let outputPdfPath = config?.outputPdfPath || "output/titles.pdf";
-
-    let basePath = "node_modules/diplomas-generator/dist/src";
-
-    let inputTitlePath = InputsValidator.isValidPath(
-      config?.inputTitlePath,
-      `${basePath}/image/title.jpg`
-    );
-    let fontPath = InputsValidator.isValidPath(
-      config?.fontPath,
-      `${basePath}/fonts/itcedscr.ttf`
-    );
-
-    // let inputTitlePath = path.join(
-    //   path.resolve(),
-    //   config?.inputTitlePath || `${basePath}/image/title.jpg`
-    // );
-
-    // let fontPath = path.join(
-    //   path.resolve(),
-    //   config?.fontPath || `${basePath}/fonts/itcedscr.ttf`
-    // );
+    let outputImgPath = config?.outputImgPath || OUTPUTIMGPATH;
+    let outputPdfPath = config?.outputPdfPath || OUTPUTPDFPATH;
+    FileSystemService.recreateDir(outputImgPath, outputPdfPath);
 
     const Logging = new LoggingService(enableLogging);
-    const fs = new FileSystemService(Logging);
-
-    // validations
-    fs.checkFileExists(inputTitlePath);
-    fs.checkFileExists(fontPath);
-    fs.recreateDir(outputImgPath, outputPdfPath);
-
     Logging.main("Reading the list of names");
 
+    let inputNames = config?.inputNames || [];
     if (typeof inputNames === "string" && inputNames.length > 0)
-      inputNames = fs.readList(inputNames) || [];
-
+      inputNames = FileSystemService.readList(inputNames) || [];
     if (!Array.isArray(inputNames) || inputNames.length === 0)
       throw new Error("Error reading the list of names");
 
@@ -137,7 +118,6 @@ export async function generateTitles(
     }
 
     const title = new Title({
-      /*  */
       fontPath,
       color,
       fontSize,
@@ -149,9 +129,6 @@ export async function generateTitles(
       height,
       imageBaseTitle,
       imageQuality,
-
-      /* Dependencies injection */
-      fs,
       createCanvas,
       registerFont,
     });
@@ -164,7 +141,8 @@ export async function generateTitles(
     });
     await Promise.all(renderPromises);
 
-    const imagenesPaths: string[] | void = fs.readDirContent(outputImgPath);
+    const imagenesPaths: string[] | void =
+      FileSystemService.readDirContent(outputImgPath);
 
     if (!Array.isArray(imagenesPaths) || imagenesPaths?.length === 0)
       throw new Error("Error generating titles images");
@@ -176,16 +154,14 @@ export async function generateTitles(
 
     if (exportPDF) {
       Logging.main("Generating PDF");
-      new CreatePDF({
-        /*  */
+      const pdf = new CreatePDF({
         outputPdfPath,
         width,
         height,
-
-        /* Dependencies injection */
         doc: new PDFDocument(),
-        fs,
-      }).render(imagenesPaths);
+      });
+
+      await pdf.render(imagenesPaths);
       Logging.success(`PDF generated with ${imagenesPaths.length} titles`);
     }
 
@@ -193,7 +169,8 @@ export async function generateTitles(
     return true;
   } catch (error) {
     if (error instanceof Error) console.log(error.message);
-    else console.error("There has been an error");
+    else console.log("There has been an error");
+    console.timeEnd("Time elapsed generating titles");
     return false;
   }
 }

@@ -1,70 +1,65 @@
 import fs from "fs";
+import path from "path";
 import { generateTitles } from "../src/index.js";
-import {
-  FileSystemService,
-  LoggingService,
-} from "../src/infraestructure/external-service/index.js";
+import { FileSystemService } from "../src/infraestructure/external-service/index.js";
+import { OUTPUTIMGPATH, OUTPUTPDFPATH } from "../src/constants/paths.js";
 
 describe("Testing generateTitles", () => {
-  const output = "output";
-  let fileSystemService: FileSystemService;
+  const output = "output/img";
+  const outputPDF = "output/titles.pdf";
 
-  beforeAll(() => {
-    const loggingService = new LoggingService(true);
-    fileSystemService = new FileSystemService(loggingService);
+  afterEach(() => {
+    if (fs.existsSync(output)) fs.rmSync(output, { recursive: true });
+    if (fs.existsSync(path.dirname(outputPDF)))
+      fs.rmSync(path.dirname(outputPDF), { recursive: true });
   });
 
-  test("shoud work with config", async () => {
+  test("shoud work with full config", async () => {
     const config = {
       fontSize: 220,
       color: "#000000",
       positionNameX: 1653,
+      textAlign: "center",
       positionNameY: 950,
       imageQuality: 0.9,
       fontPath: "__tests__/fonts/itcedscr.ttf",
       inputTitlePath: "__tests__/image/title.jpg",
-      outputImgPath: `${output}/img`,
-      outputPdfPath: `${output}/titles.pdf`,
+      outputImgPath: output,
+      outputPdfPath: outputPDF,
+      exportPDF: true,
       inputNames: ["Felipe", "Juan", "Pedro"],
       enableLogging: false,
     };
     await generateTitles(config);
-    const titles = fs.readdirSync(config.outputImgPath);
-    expect(titles.length).toBe(config.inputNames.length);
-  });
+    const titles = FileSystemService.readDirContent(config.outputImgPath);
+    const pdf = FileSystemService.checkFileExists(
+      path.resolve(config.outputPdfPath)
+    );
 
-  test("shoud generate pdf", async () => {
-    const config = {
-      outputImgPath: `${output}/img`,
-      outputPdfPath: `${output}/titles.pdf`,
-      inputNames: ["Felipe", "Juan", "Pedro"],
-      enableLogging: false,
-    };
-    await generateTitles(config);
-    const pdf = fs.existsSync(config.outputPdfPath);
+    expect(titles?.length).toBe(config.inputNames.length);
     expect(pdf).toBeTruthy();
   });
 
-  test("shoud dont generate pdf", async () => {
+  test("shoud not generate pdf", async () => {
     const config = {
-      outputImgPath: `${output}2/img`,
-      outputPdfPath: `${output}2/titles.pdf`,
+      outputPdfPath: outputPDF,
       exportPDF: false,
       inputNames: ["Felipe", "Juan", "Pedro"],
       enableLogging: false,
     };
     await generateTitles(config);
-    expect(fileSystemService.checkFileExists(config.outputPdfPath)).toBeFalsy();
+    expect(FileSystemService.checkFileExists(OUTPUTPDFPATH)).toBeFalsy();
   });
 
-  test("shoud work with default config and path names.txt", async () => {
+  test("shoud work with default config without parameters", async () => {
     const config = {
       inputNames: "__tests__/data/names.txt",
       enableLogging: false,
     };
     await generateTitles(config);
-    const titles = fs.readdirSync(`${output}/img`);
-    const names = fs.readFileSync(config.inputNames, "utf-8").split("\n");
-    expect(titles.length).toBe(names.length);
+    const titles = FileSystemService.readDirContent(OUTPUTIMGPATH);
+    const names = FileSystemService.readList(config.inputNames);
+    expect(titles?.length).toBe(names.length);
+    expect(FileSystemService.checkFileExists(OUTPUTPDFPATH)).toBeTruthy();
   });
 });

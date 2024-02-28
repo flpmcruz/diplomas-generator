@@ -1,6 +1,4 @@
-import path from "path";
-import fs from "fs";
-import { TextAlign } from "../Title.js";
+import { FileSystemService } from "../infraestructure/external-service/index.js";
 
 export class InputsValidator {
   static isHexadecimalColor(valor: string = ""): string {
@@ -8,7 +6,7 @@ export class InputsValidator {
     return regex.test(valor) ? valor : "#000000";
   }
 
-  static isValidTextAlign(valor: string = ""): TextAlign {
+  static isValidTextAlign(valor: string = ""): string {
     if (
       valor !== "center" &&
       valor !== "left" &&
@@ -37,9 +35,7 @@ export class InputsValidator {
     return imageQuality;
   }
 
-  static isValidPath(valor: string = "", fallback: string): string {
-    let titlePath = path.join(path.resolve(), valor);
-    if (fs.statSync(titlePath).isFile()) return titlePath;
-    return `${path.resolve()}/${fallback}`;
+  static isValidPath(valor: string = "", fallback: string[]) {
+    return FileSystemService.isValidPath(valor, fallback);
   }
 }

@@ -4,6 +4,7 @@ const result = await generateTitles({
   inputNames: "src/data/names.txt", // or ["Felipe", "Juan"]
   fontSize: 220,
   color: "#000000",
+  textAlign: "center",
   // positionNameX: 1653,
   // positionNameY: 950,
   imageQuality: 0.9,
@@ -12,7 +13,7 @@ const result = await generateTitles({
   outputImgPath: "output/img",
   outputPdfPath: "output/titles.pdf",
   // enableLogging: true, // default "true"
-  // exportPDF: true, // default "true"
+  exportPDF: false, // default "true"
 });
 
 result ? console.log("Success") : console.log("Error");

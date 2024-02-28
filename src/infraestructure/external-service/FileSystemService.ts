@@ -1,11 +1,8 @@
 import fs from "fs";
 import path from "path";
-import { type LoggingService } from "./LoggingService.js";
 
 export class FileSystemService {
-  constructor(readonly LoggingService: LoggingService) {}
-
-  recreateDir(outputPath: string, outputPDF: string) {
+  static recreateDir(outputPath: string, outputPDF: string) {
     try {
       if (fs.existsSync(outputPath)) fs.rmSync(outputPath, { recursive: true });
       if (fs.existsSync(path.dirname(outputPDF)))
@@ -18,7 +15,7 @@ export class FileSystemService {
     }
   }
 
-  readList(listPath: string) {
+  static readList(listPath: string) {
     try {
       if (!fs.existsSync(listPath))
         throw new Error(`${listPath} does not found`);
@@ -31,15 +28,15 @@ export class FileSystemService {
     }
   }
 
-  checkFileExists(filePath: string) {
+  static checkFileExists(filePath: string) {
     try {
-      return fs.existsSync(filePath);
+      return fs.existsSync(path.resolve(filePath));
     } catch (error) {
       throw error;
     }
   }
 
-  createWriteStream(outputPath: string) {
+  static createWriteStream(outputPath: string) {
     try {
       return fs.createWriteStream(outputPath);
     } catch (error) {
@@ -47,11 +44,17 @@ export class FileSystemService {
     }
   }
 
-  readDirContent(Path: string): string[] | void {
+  static readDirContent(Path: string): string[] | void {
     try {
-      return fs.readdirSync(Path).map((file) => `${Path}/${file}`);
+      return fs.readdirSync(Path).map((file) => path.join(Path, file));
     } catch (error) {
       throw error;
     }
+  }
+
+  static isValidPath(valor: string = "", fallback: string[]) {
+    let inputPath = path.resolve(valor);
+    if (path.resolve() !== inputPath) return inputPath;
+    return path.join(path.resolve(), ...fallback);
   }
 }
