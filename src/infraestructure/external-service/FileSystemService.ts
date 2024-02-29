@@ -57,4 +57,8 @@ export class FileSystemService {
     if (path.resolve() !== inputPath) return inputPath;
     return path.join(path.resolve(), ...fallback);
   }
+
+  static joinPaths(...paths: string[]) {
+    return path.join(...paths);
+  }
 }

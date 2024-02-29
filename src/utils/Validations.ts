@@ -31,7 +31,8 @@ export class InputsValidator {
 
   static isValidImageQuality(valor: number = 0.9): number {
     let imageQuality = Number(valor);
-    if (isNaN(imageQuality) || imageQuality < 0 || imageQuality > 1) return 0.9;
+    if (isNaN(imageQuality) || imageQuality <= 0 || imageQuality > 1)
+      return 0.9;
     return imageQuality;
   }
 

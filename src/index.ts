@@ -47,7 +47,7 @@ interface generateTitlesProps {
  *  outputImgPath: "output/img",
  *  outputPdfPath: "output/titles.pdf",
  *  exportPDF: true, // default "true"
- *  enableLogging: "true" // default "true"
+ *  enableLogging: true // default "true"
  * });
  */
 export async function generateTitles(

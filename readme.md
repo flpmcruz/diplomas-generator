@@ -23,7 +23,7 @@ const config = {
   // outputImgPath: "output/img",
   // outputPdfPath: "output/titles.pdf",
   // exportPDF: true, // default "true"
-  // enableLogging: "true" // default "true"
+  // enableLogging: true // default "true"
 };
 
 const result = await generateTitles(config); // Returns a boolean

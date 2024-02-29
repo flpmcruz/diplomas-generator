@@ -74,9 +74,8 @@ export class Title {
     this.ctx.fillText(name, this.positionNameX, this.positionNameY);
 
     // Guardar el lienzo como archivo JPEG en la carpeta de salida
-    const outputStream = FileSystemService.createWriteStream(
-      `${this.outputImgPath}/${imageName}`
-    );
+    const path = FileSystemService.joinPaths(this.outputImgPath, imageName);
+    const outputStream = FileSystemService.createWriteStream(path);
     if (!outputStream) return Promise.reject();
 
     const stream = this.canvas.createJPEGStream({

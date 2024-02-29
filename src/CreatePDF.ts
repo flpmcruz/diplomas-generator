@@ -27,6 +27,7 @@ export class CreatePDF {
         this.outputPdfPath
       );
       if (!outputStream) throw new Error("Error creating PDF file");
+
       this.doc.pipe(outputStream);
 
       imagenesPaths.forEach((imagenPath) => {

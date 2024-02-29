@@ -3,6 +3,7 @@ import path from "path";
 import { generateTitles } from "../src/index.js";
 import { FileSystemService } from "../src/infraestructure/external-service/index.js";
 import { OUTPUTIMGPATH, OUTPUTPDFPATH } from "../src/constants/paths.js";
+import { Title } from "../src/Title.js";
 
 describe("Testing generateTitles", () => {
   const output = "output/img";
