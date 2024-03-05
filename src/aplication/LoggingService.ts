@@ -1,5 +1,12 @@
 export class LoggingService {
-  constructor(readonly enable: boolean) {}
+  enable: boolean = true;
+  instance: LoggingService | null = null;
+
+  constructor(enable?: boolean) {
+    enable ? (this.enable = enable) : true;
+    if (this.instance) return this.instance;
+    this.instance = this;
+  }
 
   error(message: string) {
     return console.log(`\x1b[37m${"-".repeat(15)} \x1b[31m${message}\x1b[0m`);

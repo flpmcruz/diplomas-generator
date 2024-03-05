@@ -2,14 +2,21 @@ import fs from "fs";
 import path from "path";
 
 export class FileSystemService {
-  static recreateDir(outputPath: string, outputPDF: string) {
+  static createDir(outputPath: string) {
     try {
-      if (fs.existsSync(outputPath)) fs.rmSync(outputPath, { recursive: true });
-      if (fs.existsSync(path.dirname(outputPDF)))
-        fs.rmSync(path.dirname(outputPDF), { recursive: true });
+      if (!fs.existsSync(outputPath)) {
+        fs.mkdirSync(outputPath, { recursive: true });
+        return outputPath;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
 
-      fs.mkdirSync(outputPath, { recursive: true });
-      fs.mkdirSync(path.dirname(outputPDF), { recursive: true });
+  static createBaseDir(outputPath: string) {
+    try {
+      if (!fs.existsSync(outputPath))
+        fs.mkdirSync(path.dirname(outputPath), { recursive: true });
     } catch (error) {
       throw error;
     }
@@ -28,9 +35,11 @@ export class FileSystemService {
     }
   }
 
-  static checkFileExists(filePath: string) {
+  static checkFileExists(filePath?: string) {
     try {
-      return fs.existsSync(path.resolve(filePath));
+      const resolvedPath = path.resolve(filePath || "");
+      const stats = fs.statSync(resolvedPath);
+      return stats.isFile(); // Verifica si es un archivo normal
     } catch (error) {
       throw error;
     }
@@ -44,18 +53,18 @@ export class FileSystemService {
     }
   }
 
-  static readDirContent(Path: string): string[] | void {
+  static readDirContent(Path: string): string[] {
     try {
-      return fs.readdirSync(Path).map((file) => path.join(Path, file));
+      const result = fs.readdirSync(Path).map((file) => path.join(Path, file));
+      if (result.length === 0) throw new Error("Empty Directory");
+      return result;
     } catch (error) {
       throw error;
     }
   }
 
-  static isValidPath(valor: string = "", fallback: string[]) {
-    let inputPath = path.resolve(valor);
-    if (path.resolve() !== inputPath) return inputPath;
-    return path.join(path.resolve(), ...fallback);
+  static existsPath(value: string): boolean {
+    return fs.existsSync(value);
   }
 
   static joinPaths(...paths: string[]) {

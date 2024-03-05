@@ -17,7 +17,7 @@
   },
   "scripts": {
     "build": "tsc --declaration && npm run copy-files",
-    "copy-files": "cp -R src/image src/data src/fonts dist/src && cp readme.md dist",
+    "copy-files": "cp -R src/assets dist/src && cp readme.md dist",
     "start": "node dist/src/example.js",
     "test": "jest",
     "test:watch": "jest --watch",
