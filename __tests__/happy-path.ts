@@ -1,12 +1,12 @@
 import fs from "fs";
 import path from "path";
 import { generateTitles } from "../src/index.js";
-import { FileSystemService } from "../src/infraestructure/external-service/index.js";
-import { ImagePath } from "../src/domain/ValueObjects/ImagePath.js";
+import { FileSystemService } from "../src/domain/services/FileSystemService.js";
+import { OutputImagePath } from "../src/domain/ValueObjects/index.js";
 import { PdfPath } from "../src/domain/ValueObjects/PdfPath.js";
 
 describe("Testing generateTitles", () => {
-  const output = new ImagePath("output").value;
+  const output = new OutputImagePath("output").value;
   const outputPDF = new PdfPath("output").value;
 
   afterEach(() => {

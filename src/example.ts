@@ -8,8 +8,8 @@ const result = await generateTitles({
   // positionNameX: 1653,
   // positionNameY: 950,
   imageQuality: 0.9,
-  fontPath: "src/fonts/itcedscr.ttf",
-  inputTitlePath: "src/image/title.jpg",
+  fontPath: "dist/src/assets/fonts/itcedscr.ttf",
+  inputTitlePath: "dist/src/assets/image/title.jpg",
   outputImgPath: "output/img",
   outputPdfPath: "output/titles.pdf",
   // enableLogging: true, // default "true"

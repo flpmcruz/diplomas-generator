@@ -5,5 +5,6 @@ export * from "./ImageQuality.js";
 export * from "./Position.js";
 export * from "./Names.js";
 export * from "./FontPath.js";
-export * from "./ImagePath.js";
+export * from "./OutputImagePath.js";
 export * from "./PdfPath.js";
+export * from "./ExportPdf.js";

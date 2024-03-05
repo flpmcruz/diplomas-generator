@@ -6,7 +6,7 @@ import {
   Position,
   TextAlign,
   FontPath,
-  ImagePath,
+  OutputImagePath,
 } from "./ValueObjects/index.js";
 import { LoadedImage, TitleProps } from "./interfaces/index.js";
 
@@ -36,6 +36,6 @@ export class TitleEntity implements TitleProps {
     });
     this.inputNames = new Names(config?.inputNames).value;
     this.fontPath = new FontPath(config?.fontPath).value;
-    this.outputImgPath = new ImagePath(config?.outputImgPath).value;
+    this.outputImgPath = new OutputImagePath(config?.outputImgPath).value;
   }
 }

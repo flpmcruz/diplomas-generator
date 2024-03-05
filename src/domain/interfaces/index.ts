@@ -1,3 +1,6 @@
+import { PdfEntity } from "../PdfEntity.js";
+import { TitleEntity } from "../TitleEntity.js";
+
 export interface generateTitlesProps
   extends Omit<TitleProps, "imageBaseTitle"> {
   outputPdfPath?: string;
@@ -30,4 +33,14 @@ export interface LoadedImage {
   imageBaseTitle: any;
   width: number;
   height: number;
+}
+
+export interface CreateTitle {
+  titleEntity: TitleEntity;
+  render: () => Promise<void>;
+}
+
+export interface CreatePdf {
+  pdfEntity: PdfEntity;
+  render: () => Promise<void>;
 }

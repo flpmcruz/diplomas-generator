@@ -39,7 +39,7 @@ export class FileSystemService {
     try {
       const resolvedPath = path.resolve(filePath || "");
       const stats = fs.statSync(resolvedPath);
-      return stats.isFile(); // Verifica si es un archivo normal
+      return stats.isFile();
     } catch (error) {
       throw error;
     }

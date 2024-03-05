@@ -1,4 +1,4 @@
-import { FileSystemService } from "../../infraestructure/external-service/index.js";
+import { FileSystemService } from "../services/FileSystemService.js";
 
 export class PdfPath {
   value: string = "";

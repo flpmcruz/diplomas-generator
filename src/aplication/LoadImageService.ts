@@ -1,7 +1,5 @@
-import {
-  FileSystemService,
-  LoadImage,
-} from "../infraestructure/external-service/index.js";
+import { LoadImage } from "../infraestructure/external-service/index.js";
+import { FileSystemService } from "../domain/services/FileSystemService.js";
 import { LoadedImage } from "../domain/interfaces/index.js";
 
 export class LoadImageService {

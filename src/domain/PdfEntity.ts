@@ -1,4 +1,4 @@
-import { FileSystemService } from "../infraestructure/external-service/FileSystemService.js";
+import { FileSystemService } from "./services/FileSystemService.js";
 import { PdfPath } from "./ValueObjects/PdfPath.js";
 import { PdfProps } from "./interfaces/index.js";
 

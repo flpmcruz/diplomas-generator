@@ -9,7 +9,7 @@ import {
 import { TitleEntity } from "./domain/TitleEntity.js";
 import { generateTitlesProps } from "./domain/interfaces/index.js";
 import { PdfEntity } from "./domain/PdfEntity.js";
-import { ExportPdf } from "./domain/ValueObjects/ExportPdf.js";
+import { ExportPdf } from "./domain/ValueObjects/index.js";
 
 export { LoadImage } from "./infraestructure/external-service/index.js";
 

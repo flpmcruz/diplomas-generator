@@ -1,37 +1,17 @@
-import PDFDocument from "pdfkit";
-import { FileSystemService } from "../infraestructure/external-service/index.js";
 import { PdfEntity } from "../domain/PdfEntity.js";
+import { CreatePdf } from "../domain/interfaces/index.js";
+import { Pdfkit } from "../infraestructure/external-service/index.js";
 
 export class CreatePdfService {
-  doc: typeof PDFDocument;
   pdfEntity: PdfEntity;
+  createPdfService: CreatePdf;
 
   constructor(pdfEntity: PdfEntity) {
-    this.doc = new PDFDocument();
     this.pdfEntity = pdfEntity;
+    this.createPdfService = new Pdfkit(this.pdfEntity);
   }
 
-  render = async (): Promise<boolean> => {
-    return new Promise((resolve, reject) => {
-      const { width, height, outputPdfPath, imagesPaths } = this.pdfEntity;
-
-      const outputStream = FileSystemService.createWriteStream(outputPdfPath);
-      if (!outputStream) throw new Error("Error creating PDF file");
-
-      this.doc.pipe(outputStream);
-
-      imagesPaths.forEach((imagenPath: string) => {
-        this.doc.addPage({ size: [width, height] });
-        this.doc.image(imagenPath, 0, 0, {
-          width,
-          height,
-        });
-      });
-
-      this.doc.end();
-
-      outputStream.on("finish", () => resolve(true));
-      outputStream.on("error", (error) => reject(error));
-    });
-  };
+  async render(): Promise<void> {
+    await this.createPdfService.render();
+  }
 }

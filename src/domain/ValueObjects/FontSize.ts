@@ -5,7 +5,7 @@ export class FontSize {
     let fontSize = Number(value);
     if (value === undefined) return;
     if (isNaN(fontSize)) return;
-    if (fontSize < 0) return;
+    if (fontSize < 10) return;
     this.value = fontSize;
   }
 }

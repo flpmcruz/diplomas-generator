@@ -1,6 +1,6 @@
-import { FileSystemService } from "../../infraestructure/external-service/FileSystemService.js";
+import { FileSystemService } from "../services/FileSystemService.js";
 
-export class ImagePath {
+export class OutputImagePath {
   value: string = "";
 
   constructor(value: string | undefined) {
@@ -13,7 +13,7 @@ export class ImagePath {
     if (typeof value === "string" && value.length > 0) {
       let inputPath = FileSystemService.joinPaths(process.cwd(), value);
       FileSystemService.createDir(inputPath);
-      this.value = value;
+      this.value = inputPath;
       return;
     }
 
