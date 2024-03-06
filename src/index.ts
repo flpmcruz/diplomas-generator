@@ -72,7 +72,14 @@ export async function generateTitles(
 
     return true;
   } catch (error) {
-    if (error instanceof Error) throw error.message;
-    throw new Error("An error occurred");
+    const Logging = LoggingService.getInstance();
+    if (error instanceof Error) {
+      Logging.error(error.message);
+      throw error.message;
+    }
+    Logging.error("An error occurred while generating the titles and the PDF");
+    throw new Error(
+      "An error occurred while generating the titles and the PDF"
+    );
   }
 }

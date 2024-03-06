@@ -12,15 +12,22 @@ export class LoggingService {
     return LoggingService.instance;
   }
 
+  private printMessage(message: string): void {
+    console.log(message);
+  }
+
   private format(message: string, color: string): void {
     if (this.enable)
-      console.log(`\x1b[37m${"-".repeat(15)} ${color}${message}\x1b[0m`);
+      this.printMessage(`\x1b[37m${"-".repeat(15)} ${color}${message}\x1b[0m`);
+  }
+
+  public changeState(enable: boolean): void {
+    this.enable = enable;
   }
 
   public warning = (message: string): void => this.format(message, "\x1b[91m");
   public success = (message: string): void => this.format(message, "\x1b[32m");
   public main = (message: string): void => this.format(message, "\x1b[97m");
   public default = (message: string): void => this.format(message, "");
-  public error = (message: string): void =>
-    console.error(`\x1b[37m${"-".repeat(15)} \x1b[31m${message}\x1b[0m`);
+  public error = (message: string): void => this.format(message, "\x1b[31m");
 }

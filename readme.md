@@ -9,24 +9,23 @@ A versatile tool for generating diplomas and certificates from a list of names, 
 # Basic Usage
 
 ```js
-// Import the generateTitles function from the diplomas-generator module.
 import { generateTitles } from "diplomas-generator";
 // const { generateTitles } = require("diplomas-generator"); // For CommonJS
 
 // Configuration object for generating titles.
 // All parameters are optional, except inputNames.
 const config = {
-  inputNames: "src/data/names.txt", // Path to a text files or an array of strings [ "name1", "name2", ...]
+  inputNames: "src/data/names.txt", // or [ "name1", "name2", ...]
   // fontPath: "src/fonts/itcedscr.ttf", // Path to the font file
   // fontSize: 220, // Font size in pixels
   // color: "#000000", // Text color in hexadecimal format
-  // textAlign: "center", // Text alignment: "left"|"right"|"center"|"start"|"end"
+  // textAlign: "center", // Text alignment
   // positionNameX: 1625, // X-coordinate position for placing the name
   // positionNameY: 950, // Y-coordinate position for placing the name
   // imageQuality: 0.9, // Image quality (0 to 1)
   // inputTitlePath: "src/image/title.jpg", // Path to the title image file
-  // outputImgPath: "output/img", // Output directory for images
-  // outputPdfPath: "output/titles.pdf", // Output file path for the PDF
+  // outputImgPath: "output/img",
+  // outputPdfPath: "output/titles.pdf",
   // exportPDF: true, // Whether to export PDF (default: true)
   // enableLogging: true, // Whether to enable logging (default: false)
 };
@@ -63,7 +62,10 @@ This package uses the package [node-canvas](https://www.npmjs.com/package/canvas
 # Considerations
 
 `inputNames`, `inputTitlePath`, `outputImgPath`, and `outputPdfPath` should be relative paths to the project root.
-`positionNameX` and `positionNameY` are the coordinates (px) of the name in the diploma. By default, the name is centered in the diploma. Use these parameters to adjust the position of the name in the diploma. And `textAlign` to adjust the horizontal alignment of the name relative to the `positionNameX`.
+
+`positionNameX` and `positionNameY` are the coordinates (px) of the name in the diploma. By default, the name is centered in the diploma. Use these parameters to adjust the position of the name in the diploma.
+
+Use `textAlign` to adjust the horizontal alignment of the name relative to the `positionNameX`.
 
 File names.txt should contain a list of names separated by new line.
 

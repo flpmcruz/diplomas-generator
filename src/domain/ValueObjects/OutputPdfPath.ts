@@ -1,3 +1,4 @@
+import { LoggingService } from "../../aplication/LoggingService.js";
 import { FileSystemService } from "../services/FileSystemService.js";
 
 export class OutputPdfPath {
@@ -24,5 +25,9 @@ export class OutputPdfPath {
     );
     FileSystemService.createBaseDir(defaultPath);
     this.value = defaultPath;
+    const Loggin = LoggingService.getInstance();
+    Loggin.warning(
+      `OutputPdfPath not provided or invalid, using the default path: ${defaultPath}`
+    );
   }
 }

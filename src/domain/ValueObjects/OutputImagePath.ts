@@ -1,4 +1,5 @@
 import { FileSystemService } from "../services/FileSystemService.js";
+import { LoggingService } from "../../aplication/LoggingService";
 
 export class OutputImagePath {
   value: string = "";
@@ -19,5 +20,9 @@ export class OutputImagePath {
 
     FileSystemService.createDir(defaultPath);
     this.value = defaultPath;
+    const Loggin = LoggingService.getInstance();
+    Loggin.warning(
+      `OutputImagePath not provided or invalid, using the default path: ${defaultPath}`
+    );
   }
 }

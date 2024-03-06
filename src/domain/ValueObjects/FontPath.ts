@@ -19,8 +19,8 @@ export class FontPath {
         this.value = FileSystemService.joinPaths(process.cwd(), value);
       }
     } catch (error) {
-      const loggin = LoggingService.getInstance();
-      loggin.warning("FontPath provided is not valid, using default font");
+      const Loggin = LoggingService.getInstance();
+      Loggin.warning("FontPath provided is not valid, using default font");
     }
   }
 }
