@@ -17,7 +17,7 @@
   "scripts": {
     "build": "tsc && npm run copyfiles",
     "copyfiles": "cp -R src/assets dist/src && cp readme.md dist",
-    "copyassets": "cp -R src/assets node_modules/diplomas-generator/dist/src",
+    "copyassets": "mkdir -p node_modules/diplomas-generator/dist/src && cp -R src/assets node_modules/diplomas-generator/dist/src",
     "start": "node dist/src/example.js",
     "test": "jest -i",
     "test:watch": "jest -i --watch",
