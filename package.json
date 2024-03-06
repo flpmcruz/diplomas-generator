@@ -1,6 +1,6 @@
 {
   "name": "diplomas-generator",
-  "version": "1.4.8",
+  "version": "1.4.9",
   "types": "dist/src/index.d.ts",
   "description": "A versatile tool for generating diplomas and certificates from a list of names, with support for customizable designs and output formats like JPG and PDF.",
   "repository": {
@@ -15,7 +15,7 @@
     }
   },
   "scripts": {
-    "build": "tsc --declaration && npm run copy-files",
+    "build": "tsc && npm run copy-files",
     "copy-files": "cp -R src/assets dist/src && cp readme.md dist",
     "start": "node dist/src/example.js",
     "test": "jest -i",

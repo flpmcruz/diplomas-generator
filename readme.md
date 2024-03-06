@@ -2,7 +2,7 @@
 
 ![tests](https://github.com/flpmcruz/diplomas-generator/actions/workflows/ci.yml/badge.svg)
 
-A versatile tool for generating diplomas and certificates from a list of names, with support for customizable designs and output formats like PDF.
+A versatile tool for generating diplomas and certificates from a list of names, with support for customizable designs and output formats like JPG and PDF.
 
 ![Example of generated diploma.](https://flpmcruz.github.io/diplomas-generator/example.jpg)
 
@@ -15,13 +15,13 @@ import { generateTitles } from "diplomas-generator";
 // All the parameters are optional, only the inputNames is required.
 const config = {
   inputNames: "src/data/names.txt", // or ["Felipe", "Juan"] *Required
+  // fontPath: "src/fonts/itcedscr.ttf",
   // fontSize: 220,
   // color: "#000000",
   // textAlign: "center", // or "left"|"right"|"start"|"end"
   // positionNameX: 1625,
   // positionNameY: 950,
   // imageQuality: 0.9,
-  // fontPath: "src/fonts/itcedscr.ttf",
   // inputTitlePath: "src/image/title.jpg",
   // outputImgPath: "output/img",
   // outputPdfPath: "output/titles.pdf",
@@ -37,31 +37,9 @@ result ? console.log("Success") : console.log("Error");
 ** Important **
 This package uses the package [node-canvas](https://www.npmjs.com/package/canvas) to generate the diplomas, so in some cases you need to install the OS dependencies of this package to use it. See the OS specific instructions [here](https://www.npmjs.com/package/canvas)
 
-File names.txt should contain a list of names separated by new line.
-
-```txt
-Maria Perez
-Patrick Smith
-Jane Doe
-```
-
-You can also get dimensions of the title image using the static method `LoadImage.load` :
-
-```js
-import { LoadImage } from "diplomas-generator";
-
-try {
-  const image = await LoadImage.load("path/title.jpg");
-  if (image) {
-    const { width, height } = image;
-    // Do something with the dimensions
-  }
-} catch (error) {}
-```
-
 | Parameter        | Description                                                                                  |
 | ---------------- | -------------------------------------------------------------------------------------------- |
-| `inputNames`\*   | File path for the text file containing the names. Can be an array (required).                |
+| `inputNames`\*   | Required\* File path for the text file containing the names. Can be an array of strings.     |
 | `fontSize`       | Font size for the name on the diplomas.                                                      |
 | `color`          | Text color for the name on the diplomas, in hexadecimal format.                              |
 | `textAlign`      | Horizontal alignment for the name on the diplomas. "center", "start", "end", "left", "right" |
@@ -75,4 +53,29 @@ try {
 | `exportPDF`      | Boolean to enable or disable the export of the diplomas as PDF files.                        |
 | `enableLogging`  | Boolean to enable or disable the logging of the process.                                     |
 
-`positionNameX` and `positionNameY` are the coordinates (px) of the name in the diploma. By default, the name is centered in the diploma. Use these parameters to adjust the position of the name in the diploma.
+# Considerations
+
+`inputNames`, `inputTitlePath`, `outputImgPath`, and `outputPdfPath` should be relative paths to the project root.
+`positionNameX` and `positionNameY` are the coordinates (px) of the name in the diploma. By default, the name is centered in the diploma. Use these parameters to adjust the position of the name in the diploma. And `textAlign` to adjust the horizontal alignment of the name relative to the `positionNameX`.
+
+File names.txt should contain a list of names separated by new line.
+
+```txt
+Maria Perez
+Patrick Smith
+Jane Doe
+```
+
+You can also get dimensions of the your title image using the static method `LoadImage.load` :
+
+```js
+import { LoadImage } from "diplomas-generator";
+
+try {
+  const image = await LoadImage.load("path/title.jpg");
+  if (image) {
+    const { width, height } = image;
+    // Do something with the dimensions
+  }
+} catch (error) {}
+```

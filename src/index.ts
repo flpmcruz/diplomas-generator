@@ -36,7 +36,7 @@ export async function generateTitles(
   config: generateTitlesProps
 ): Promise<boolean> {
   try {
-    const Logging = new LoggingService(config?.enableLogging);
+    const Logging = LoggingService.getInstance(config?.enableLogging);
     const imageBaseTitle = await LoadImageService.exec(config?.inputTitlePath);
     const titleEntity = new TitleEntity({ ...config, imageBaseTitle });
 
@@ -72,8 +72,9 @@ export async function generateTitles(
 
     return true;
   } catch (error) {
-    if (error instanceof Error) console.log(error.message);
-    else console.log("There has been an error");
+    const Logging = LoggingService.getInstance();
+    if (error instanceof Error) Logging.error(error.message);
+    else Logging.error("An error occurred");
     return false;
   }
 }
