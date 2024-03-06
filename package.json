@@ -1,6 +1,6 @@
 {
   "name": "diplomas-generator",
-  "version": "1.4.8",
+  "version": "1.4.10",
   "types": "dist/src/index.d.ts",
   "description": "A versatile tool for generating diplomas and certificates from a list of names, with support for customizable designs and output formats like JPG and PDF.",
   "repository": {
@@ -15,12 +15,13 @@
     }
   },
   "scripts": {
-    "build": "tsc --declaration && npm run copy-files",
-    "copy-files": "cp -R src/assets dist/src && cp readme.md dist",
+    "build": "tsc && npm run copyfiles",
+    "copyfiles": "cp -R src/assets dist/src && cp readme.md dist",
+    "copyassets": "cp -R src/assets node_modules/diplomas-generator/dist/src",
     "start": "node dist/src/example.js",
     "test": "jest -i",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:watch": "jest -i --watch",
+    "test:coverage": "jest -i --coverage"
   },
   "author": "Felipe Mireles Cruz",
   "license": "ISC",
@@ -32,7 +33,6 @@
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.19",
     "@types/pdfkit": "^0.13.4",
-    "diplomas-generator": "^1.4.6",
     "jest": "^29.7.0",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",

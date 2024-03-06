@@ -2,66 +2,51 @@
 
 ![tests](https://github.com/flpmcruz/diplomas-generator/actions/workflows/ci.yml/badge.svg)
 
-A versatile tool for generating diplomas and certificates from a list of names, with support for customizable designs and output formats like PDF.
+A versatile tool for generating diplomas and certificates from a list of names, with support for customizable designs and output formats like JPG and PDF.
 
 ![Example of generated diploma.](https://flpmcruz.github.io/diplomas-generator/example.jpg)
 
 # Basic Usage
 
 ```js
+// Import the generateTitles function from the diplomas-generator module.
 import { generateTitles } from "diplomas-generator";
 // const { generateTitles } = require("diplomas-generator"); // For CommonJS
 
-// All the parameters are optional, only the inputNames is required.
+// Configuration object for generating titles.
+// All parameters are optional, except inputNames.
 const config = {
-  inputNames: "src/data/names.txt", // or ["Felipe", "Juan"] *Required
-  // fontSize: 220,
-  // color: "#000000",
-  // textAlign: "center", // or "left"|"right"|"start"|"end"
-  // positionNameX: 1625,
-  // positionNameY: 950,
-  // imageQuality: 0.9,
-  // fontPath: "src/fonts/itcedscr.ttf",
-  // inputTitlePath: "src/image/title.jpg",
-  // outputImgPath: "output/img",
-  // outputPdfPath: "output/titles.pdf",
-  // exportPDF: true, // default "true"
-  // enableLogging: true // default "false"
+  inputNames: "src/data/names.txt", // Path to a text files or an array of strings [ "name1", "name2", ...]
+  // fontPath: "src/fonts/itcedscr.ttf", // Path to the font file
+  // fontSize: 220, // Font size in pixels
+  // color: "#000000", // Text color in hexadecimal format
+  // textAlign: "center", // Text alignment: "left"|"right"|"center"|"start"|"end"
+  // positionNameX: 1625, // X-coordinate position for placing the name
+  // positionNameY: 950, // Y-coordinate position for placing the name
+  // imageQuality: 0.9, // Image quality (0 to 1)
+  // inputTitlePath: "src/image/title.jpg", // Path to the title image file
+  // outputImgPath: "output/img", // Output directory for images
+  // outputPdfPath: "output/titles.pdf", // Output file path for the PDF
+  // exportPDF: true, // Whether to export PDF (default: true)
+  // enableLogging: true, // Whether to enable logging (default: false)
 };
 
-const result = await generateTitles(config); // Returns a boolean
-
-result ? console.log("Success") : console.log("Error");
+// Generate titles based on the provided configuration.
+generateTitles(config)
+  .then(() => {
+    console.log("Diplomas generated successfully!");
+  })
+  .catch((error) => {
+    console.error("Error generating diplomas:", error);
+  });
 ```
 
 ** Important **
 This package uses the package [node-canvas](https://www.npmjs.com/package/canvas) to generate the diplomas, so in some cases you need to install the OS dependencies of this package to use it. See the OS specific instructions [here](https://www.npmjs.com/package/canvas)
 
-File names.txt should contain a list of names separated by new line.
-
-```txt
-Maria Perez
-Patrick Smith
-Jane Doe
-```
-
-You can also get dimensions of the title image using the static method `LoadImage.load` :
-
-```js
-import { LoadImage } from "diplomas-generator";
-
-try {
-  const image = await LoadImage.load("path/title.jpg");
-  if (image) {
-    const { width, height } = image;
-    // Do something with the dimensions
-  }
-} catch (error) {}
-```
-
 | Parameter        | Description                                                                                  |
 | ---------------- | -------------------------------------------------------------------------------------------- |
-| `inputNames`\*   | File path for the text file containing the names. Can be an array (required).                |
+| `inputNames`\*   | Required\* File path for the text file containing the names. Can be an array of strings.     |
 | `fontSize`       | Font size for the name on the diplomas.                                                      |
 | `color`          | Text color for the name on the diplomas, in hexadecimal format.                              |
 | `textAlign`      | Horizontal alignment for the name on the diplomas. "center", "start", "end", "left", "right" |
@@ -75,4 +60,29 @@ try {
 | `exportPDF`      | Boolean to enable or disable the export of the diplomas as PDF files.                        |
 | `enableLogging`  | Boolean to enable or disable the logging of the process.                                     |
 
-`positionNameX` and `positionNameY` are the coordinates (px) of the name in the diploma. By default, the name is centered in the diploma. Use these parameters to adjust the position of the name in the diploma.
+# Considerations
+
+`inputNames`, `inputTitlePath`, `outputImgPath`, and `outputPdfPath` should be relative paths to the project root.
+`positionNameX` and `positionNameY` are the coordinates (px) of the name in the diploma. By default, the name is centered in the diploma. Use these parameters to adjust the position of the name in the diploma. And `textAlign` to adjust the horizontal alignment of the name relative to the `positionNameX`.
+
+File names.txt should contain a list of names separated by new line.
+
+```txt
+Maria Perez
+Patrick Smith
+Jane Doe
+```
+
+You can also get dimensions of the your title image using the static method `LoadImage.load` :
+
+```js
+import { LoadImage } from "diplomas-generator";
+
+try {
+  const image = await LoadImage.load("path/title.jpg");
+  if (image) {
+    const { width, height } = image;
+    // Do something with the dimensions
+  }
+} catch (error) {}
+```

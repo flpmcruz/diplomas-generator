@@ -25,5 +25,6 @@ describe("Testing CreatePdfService", () => {
     });
     const createPdfService = new CreatePdfService(pdfEntity);
     await createPdfService.render();
+    expect(fs.existsSync(outputPdfPath)).toBe(true);
   });
 });

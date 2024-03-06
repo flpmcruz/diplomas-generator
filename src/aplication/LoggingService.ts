@@ -1,38 +1,26 @@
 export class LoggingService {
-  enable: boolean = false;
-  instance: LoggingService | null = null;
+  private static instance: LoggingService | null = null;
+  private enable: boolean = false;
 
-  constructor(enable?: boolean) {
-    enable ? (this.enable = enable) : false;
-    if (this.instance) return this.instance;
-    this.instance = this;
+  private constructor(enable?: boolean) {
+    if (enable !== undefined) this.enable = enable;
   }
 
-  error(message: string) {
-    return console.log(`\x1b[37m${"-".repeat(15)} \x1b[31m${message}\x1b[0m`);
+  public static getInstance(enable?: boolean): LoggingService {
+    if (!LoggingService.instance)
+      LoggingService.instance = new LoggingService(enable);
+    return LoggingService.instance;
   }
 
-  warning(message: string) {
-    return this.enable
-      ? console.log(`\x1b[37m${"-".repeat(15)} \x1b[91m${message}\x1b[0m`)
-      : null;
+  private format(message: string, color: string): void {
+    if (this.enable)
+      console.log(`\x1b[37m${"-".repeat(15)} ${color}${message}\x1b[0m`);
   }
 
-  success(message: string) {
-    return this.enable
-      ? console.log(`\x1b[37m${"-".repeat(15)} \x1b[32m${message}\x1b[0m`)
-      : null;
-  }
-
-  main(message: string) {
-    return this.enable
-      ? console.log(`\x1b[37m${"-".repeat(15)} \x1b[97m${message}\x1b[0m`)
-      : null;
-  }
-
-  default(message: string) {
-    return this.enable
-      ? console.log(`\x1b[37m${"-".repeat(15)} ${message}\x1b[0m`)
-      : null;
-  }
+  public warning = (message: string): void => this.format(message, "\x1b[91m");
+  public success = (message: string): void => this.format(message, "\x1b[32m");
+  public main = (message: string): void => this.format(message, "\x1b[97m");
+  public default = (message: string): void => this.format(message, "");
+  public error = (message: string): void =>
+    console.error(`\x1b[37m${"-".repeat(15)} \x1b[31m${message}\x1b[0m`);
 }
