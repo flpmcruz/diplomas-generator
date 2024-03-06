@@ -1,4 +1,5 @@
 import { type Image, loadImage } from "canvas";
+import { FileSystemService } from "../../domain/services/FileSystemService.js";
 
 interface LoadedImage {
   imageBaseTitle: Image;
@@ -15,7 +16,10 @@ export class LoadImage {
   static load = async (inputTitlePath: string): Promise<LoadedImage> => {
     try {
       if (!inputTitlePath) throw new Error("Error loading the title image");
-      let imageBaseTitle = await loadImage(inputTitlePath);
+
+      const path = FileSystemService.joinPaths(process.cwd(), inputTitlePath);
+
+      let imageBaseTitle = await loadImage(path);
 
       if (!imageBaseTitle) throw new Error("Error loading the title image");
       let width = imageBaseTitle.width;

@@ -1,6 +1,6 @@
 import { generateTitles } from "./index.js";
 
-const result = await generateTitles({
+const result = generateTitles({
   inputNames: ["Felipe", "Juan"],
   fontSize: 220,
   color: "#000000",
@@ -14,6 +14,6 @@ const result = await generateTitles({
   outputPdfPath: "output/titles.pdf",
   // enableLogging: true, // default "true"
   exportPDF: true, // default "true"
-});
-
-result ? console.log("Success") : console.log("Error");
+})
+  .then(console.log)
+  .catch(console.log);

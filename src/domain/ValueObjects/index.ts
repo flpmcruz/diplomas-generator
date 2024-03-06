@@ -6,5 +6,5 @@ export * from "./Position.js";
 export * from "./Names.js";
 export * from "./FontPath.js";
 export * from "./OutputImagePath.js";
-export * from "./PdfPath.js";
+export * from "./OutputPdfPath.js";
 export * from "./ExportPdf.js";

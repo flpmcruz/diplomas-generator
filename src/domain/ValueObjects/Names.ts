@@ -13,10 +13,14 @@ export class Names {
     }
 
     if (typeof value === "string" && value.length > 0) {
-      let path = FileSystemService.joinPaths(process.cwd(), value);
-      this.value = FileSystemService.readList(path);
-      if (this.value.length === 0) throw new Error("Invalid list of names");
-      return;
+      try {
+        let path = FileSystemService.joinPaths(process.cwd(), value);
+        this.value = FileSystemService.readList(path);
+        if (this.value.length === 0) throw new Error("Invalid list of names");
+        return;
+      } catch (error) {
+        throw new Error("Invalid list of names");
+      }
     }
 
     throw new Error("Invalid list of names");

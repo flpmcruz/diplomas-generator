@@ -1,4 +1,5 @@
 import fs from "fs";
+import path from "path";
 import { OutputImagePath } from "../../../../src/domain/ValueObjects/index.js";
 import { FileSystemService } from "../../../../src/domain/services/FileSystemService.js";
 
@@ -8,10 +9,10 @@ describe("Testing OutputImagePath ValueObject", () => {
 
   afterEach(() => {
     if (fs.existsSync(fallbackImagePath))
-      fs.rmSync(fallbackImagePath, { recursive: true });
+      fs.rmSync(path.dirname(fallbackImagePath), { recursive: true });
 
     if (fs.existsSync(validImagePath))
-      fs.rmSync(validImagePath, { recursive: true });
+      fs.rmSync(path.dirname(validImagePath), { recursive: true });
   });
 
   test("shoud return defult value if OutputImagePath not provided or is invalid string", () => {

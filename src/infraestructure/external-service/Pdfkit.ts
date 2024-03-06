@@ -20,19 +20,14 @@ export class Pdfkit implements CreatePdf {
       if (!outputStream) throw new Error("Error creating PDF file");
 
       this.doc.pipe(outputStream);
-
-      imagesPaths.forEach((imagenPath: string) => {
+      imagesPaths.forEach((imgPath: string) => {
         this.doc.addPage({ size: [width, height] });
-        this.doc.image(imagenPath, 0, 0, {
-          width,
-          height,
-        });
+        this.doc.image(imgPath, 0, 0, { width, height });
       });
-
       this.doc.end();
 
       outputStream.on("finish", () => resolve());
-      outputStream.on("error", (error) => reject(error));
+      outputStream.on("error", () => reject("Error creating PDF file"));
     });
   }
 }

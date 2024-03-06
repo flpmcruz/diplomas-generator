@@ -46,7 +46,10 @@ export class Canvas implements CreateTitle {
         ctx.fillText(name, position.x, position.y);
 
         // Guardar el lienzo como archivo JPEG en la carpeta de salida
-        const path = FileSystemService.joinPaths(outputImgPath, `${index}.jpg`);
+        const path = FileSystemService.joinPaths(
+          outputImgPath,
+          `${index + 1}.jpg`
+        );
         const outputStream = FileSystemService.createWriteStream(path);
 
         if (!outputStream)

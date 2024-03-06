@@ -4,10 +4,13 @@
 
 A versatile tool for generating diplomas and certificates from a list of names, with support for customizable designs and output formats like PDF.
 
+![Example of generated diploma.](https://flpmcruz.github.io/diplomas-generator/example.jpg)
+
 # Basic Usage
 
 ```js
 import { generateTitles } from "diplomas-generator";
+// const { generateTitles } = require("diplomas-generator"); // For CommonJS
 
 // All the parameters are optional, only the inputNames is required.
 const config = {
@@ -23,7 +26,7 @@ const config = {
   // outputImgPath: "output/img",
   // outputPdfPath: "output/titles.pdf",
   // exportPDF: true, // default "true"
-  // enableLogging: true // default "true"
+  // enableLogging: true // default "false"
 };
 
 const result = await generateTitles(config); // Returns a boolean
@@ -47,11 +50,13 @@ You can also get dimensions of the title image using the static method `LoadImag
 ```js
 import { LoadImage } from "diplomas-generator";
 
-const image = await LoadImage.load("path/title.jpg");
-if (image) {
-  const { width, height } = image;
-  // Do something with the dimensions
-}
+try {
+  const image = await LoadImage.load("path/title.jpg");
+  if (image) {
+    const { width, height } = image;
+    // Do something with the dimensions
+  }
+} catch (error) {}
 ```
 
 | Parameter        | Description                                                                                  |
@@ -71,5 +76,3 @@ if (image) {
 | `enableLogging`  | Boolean to enable or disable the logging of the process.                                     |
 
 `positionNameX` and `positionNameY` are the coordinates (px) of the name in the diploma. By default, the name is centered in the diploma. Use these parameters to adjust the position of the name in the diploma.
-
-![Example of generated diploma.](https://flpmcruz.github.io/diplomas-generator/example.jpg)

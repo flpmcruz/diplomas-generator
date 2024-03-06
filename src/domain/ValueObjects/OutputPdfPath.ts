@@ -1,6 +1,6 @@
 import { FileSystemService } from "../services/FileSystemService.js";
 
-export class PdfPath {
+export class OutputPdfPath {
   value: string = "";
 
   constructor(value: string | undefined) {
@@ -17,7 +17,11 @@ export class PdfPath {
       return;
     }
 
-    let defaultPath = FileSystemService.joinPaths(process.cwd(), "output");
+    let defaultPath = FileSystemService.joinPaths(
+      process.cwd(),
+      "output",
+      "titles.pdf"
+    );
     FileSystemService.createBaseDir(defaultPath);
     this.value = defaultPath;
   }

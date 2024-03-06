@@ -1,9 +1,9 @@
 export class LoggingService {
-  enable: boolean = true;
+  enable: boolean = false;
   instance: LoggingService | null = null;
 
   constructor(enable?: boolean) {
-    enable ? (this.enable = enable) : true;
+    enable ? (this.enable = enable) : false;
     if (this.instance) return this.instance;
     this.instance = this;
   }

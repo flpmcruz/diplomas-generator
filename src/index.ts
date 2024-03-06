@@ -1,5 +1,3 @@
-console.time("Time elapsed generating titles");
-
 import {
   CreateTitleService,
   CreatePdfService,
@@ -72,12 +70,10 @@ export async function generateTitles(
       Logging.success(`PDF generated`);
     }
 
-    console.timeEnd("Time elapsed generating titles");
     return true;
   } catch (error) {
     if (error instanceof Error) console.log(error.message);
     else console.log("There has been an error");
-    console.timeEnd("Time elapsed generating titles");
     return false;
   }
 }
