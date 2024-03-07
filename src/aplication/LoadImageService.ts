@@ -1,28 +1,17 @@
-import { LoadImage } from "../infraestructure/external-service/index.js";
-import { LoadedImage } from "../domain/interfaces/index.js";
-import { LoggingService } from "./LoggingService.js";
+import { ImageLoader, LoadedImage } from "../domain/interfaces/index.js";
+import { InputImagePath } from "../domain/ValueObjects/InputImagePath.js";
+import { CanvasLoaderImage } from "../infraestructure/index.js";
 
 export class LoadImageService {
-  static async exec(inputTitlePath?: string): Promise<LoadedImage> {
-    const fallback =
-      "/node_modules/diplomas-generator/dist/src/assets/image/title.jpg";
+  private inputTitlePath: string;
+  private imageLoader: ImageLoader;
 
-    try {
-      const res = await LoadImage.load(inputTitlePath || "");
-      if (res.imageBaseTitle) return res;
-    } catch (error) {}
+  constructor(inputTitlePath?: string) {
+    this.inputTitlePath = new InputImagePath(inputTitlePath).value;
+    this.imageLoader = new CanvasLoaderImage(this.inputTitlePath);
+  }
 
-    try {
-      const res = await LoadImage.load(fallback);
-      if (res.imageBaseTitle) {
-        const Loggin = LoggingService.getInstance();
-        Loggin.warning(
-          `The title image was not found, using the default image`
-        );
-        return res;
-      }
-    } catch (error) {}
-
-    throw new Error("Error loading the title image");
+  async exec(): Promise<LoadedImage> {
+    return await this.imageLoader.load();
   }
 }

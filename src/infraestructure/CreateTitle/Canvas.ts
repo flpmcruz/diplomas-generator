@@ -25,11 +25,7 @@ export class Canvas implements CreateTitle {
       position,
       imageQuality,
     } = this.titleEntity;
-    const {
-      width,
-      height,
-      imageBaseTitle: image,
-    } = this.titleEntity.imageBaseTitle;
+    const { width, height, imageBaseTitle: image } = this.titleEntity.image;
 
     await Promise.all(
       inputNames.map(async (name, index) => {

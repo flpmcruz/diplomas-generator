@@ -9,7 +9,8 @@ import { generateTitlesProps } from "./domain/interfaces/index.js";
 import { PdfEntity } from "./domain/PdfEntity.js";
 import { ExportPdf } from "./domain/ValueObjects/index.js";
 
-export { LoadImage } from "./infraestructure/external-service/index.js";
+// Utility to load an image from the file system
+export { LoadImageDeprecated as LoadImage } from "./infraestructure/index.js";
 
 /**
  * @param {generateTitlesProps} config
@@ -37,8 +38,8 @@ export async function generateTitles(
 ): Promise<boolean> {
   try {
     const Logging = LoggingService.getInstance(config?.enableLogging);
-    const imageBaseTitle = await LoadImageService.exec(config?.inputTitlePath);
-    const titleEntity = new TitleEntity({ ...config, imageBaseTitle });
+    const image = await new LoadImageService(config?.inputTitlePath).exec();
+    const titleEntity = new TitleEntity({ ...config, image });
 
     /*  */
     Logging.success("List read");
@@ -61,8 +62,8 @@ export async function generateTitles(
       const pdfEntity = new PdfEntity({
         outputPdfPath: config?.outputPdfPath,
         imagesPath: titleEntity.outputImgPath,
-        width: imageBaseTitle.width,
-        height: imageBaseTitle.height,
+        width: image.width,
+        height: image.height,
       });
 
       const pdf = new CreatePdfService(pdfEntity);
@@ -72,14 +73,7 @@ export async function generateTitles(
 
     return true;
   } catch (error) {
-    const Logging = LoggingService.getInstance();
-    if (error instanceof Error) {
-      Logging.error(error.message);
-      throw error.message;
-    }
-    Logging.error("An error occurred while generating the titles and the PDF");
-    throw new Error(
-      "An error occurred while generating the titles and the PDF"
-    );
+    if (error instanceof Error) throw error.message;
+    throw new Error("An error occurred while generating the titles");
   }
 }

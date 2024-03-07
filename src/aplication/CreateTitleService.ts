@@ -1,6 +1,6 @@
 import { TitleEntity } from "../domain/TitleEntity.js";
 import { CreateTitle } from "../domain/interfaces/index.js";
-import { Canvas } from "../infraestructure/external-service/index.js";
+import { Canvas } from "../infraestructure/index.js";
 
 export class CreateTitleService {
   titleEntity: TitleEntity;

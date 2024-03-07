@@ -12,7 +12,8 @@ interface LoadedImage {
  * @returns The image and its dimensions
  * @returns Error if the image could not be loaded
  */
-export class LoadImage {
+export class LoadImageDeprecated {
+  //Deprecate this method
   static load = async (inputTitlePath: string): Promise<LoadedImage> => {
     try {
       if (!inputTitlePath) throw new Error("Error loading the title image");

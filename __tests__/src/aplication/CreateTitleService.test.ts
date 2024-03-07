@@ -16,9 +16,8 @@ describe("Testing CreateTitleService", () => {
   });
 
   test("shoud create images titles", async () => {
-    const imageBaseTitle = await LoadImageService.exec(
-      "__tests__/src/assets/title.jpg"
-    );
+    const path = "__tests__/src/assets/title.jpg";
+    const image = await new LoadImageService(path).exec();
 
     const config = {
       inputNames: ["Felipe", "Juan"],
@@ -30,10 +29,9 @@ describe("Testing CreateTitleService", () => {
       imageQuality: 0.9,
       fontPath: "__tests__/src/assets/fonts/itcedscr.ttf",
       outputImgPath,
-      imageBaseTitle,
     };
 
-    const titleEntity = new TitleEntity({ ...config, imageBaseTitle });
+    const titleEntity = new TitleEntity({ ...config, image });
     const title = new CreateTitleService(titleEntity);
     await title.render();
 

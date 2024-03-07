@@ -8,3 +8,4 @@ export * from "./FontPath.js";
 export * from "./OutputImagePath.js";
 export * from "./OutputPdfPath.js";
 export * from "./ExportPdf.js";
+export * from "./InputImagePath.js";

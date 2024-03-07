@@ -6,31 +6,17 @@ A versatile tool for generating diplomas and certificates from a list of names, 
 
 ![Example of generated diploma.](https://flpmcruz.github.io/diplomas-generator/example.jpg)
 
-# Basic Usage
+# Basic usage
 
 ```js
 import { generateTitles } from "diplomas-generator";
-// const { generateTitles } = require("diplomas-generator"); // For CommonJS
 
 // Configuration object for generating titles.
-// All parameters are optional, except inputNames.
 const config = {
   inputNames: "src/data/names.txt", // or [ "name1", "name2", ...]
-  // fontPath: "src/fonts/itcedscr.ttf", // Path to the font file
-  // fontSize: 220, // Font size in pixels
-  // color: "#000000", // Text color in hexadecimal format
-  // textAlign: "center", // Text alignment
-  // positionNameX: 1625, // X-coordinate position for placing the name
-  // positionNameY: 950, // Y-coordinate position for placing the name
-  // imageQuality: 0.9, // Image quality (0 to 1)
-  // inputTitlePath: "src/image/title.jpg", // Path to the title image file
-  // outputImgPath: "output/img",
-  // outputPdfPath: "output/titles.pdf",
-  // exportPDF: true, // Whether to export PDF (default: true)
-  // enableLogging: true, // Whether to enable logging (default: false)
+  inputTitlePath: "src/image/title.jpg", // Path to the title image file
 };
 
-// Generate titles based on the provided configuration.
 generateTitles(config)
   .then(() => {
     console.log("Diplomas generated successfully!");
@@ -75,16 +61,43 @@ Patrick Smith
 Jane Doe
 ```
 
-You can also get dimensions of the your title image using the static method `LoadImage.load` :
+# CommonJS usage
 
 ```js
-import { LoadImage } from "diplomas-generator";
+const { generateTitles } = require("diplomas-generator");
+const config {
+  ...
+}
+generateTitles(config).then().catch();
+```
 
-try {
-  const image = await LoadImage.load("path/title.jpg");
-  if (image) {
-    const { width, height } = image;
-    // Do something with the dimensions
-  }
-} catch (error) {}
+# Advanced usage
+
+```js
+import { generateTitles } from "diplomas-generator";
+
+// Configuration object for generating titles.
+const config = {
+  inputNames: "src/data/names.txt", // or [ "name1", "name2", ...]
+  fontPath: "src/fonts/itcedscr.ttf", // Path to the font file
+  fontSize: 220, // Font size in pixels
+  color: "#000000", // Text color in hexadecimal format
+  textAlign: "center", // Text alignment
+  positionNameX: 1625, // X-coordinate position for placing the name
+  positionNameY: 950, // Y-coordinate position for placing the name
+  imageQuality: 0.9, // Image quality (0 to 1)
+  inputTitlePath: "src/image/title.jpg", // Path to the title image file
+  outputImgPath: "output/img",
+  outputPdfPath: "output/titles.pdf",
+  exportPDF: true, // Whether to export PDF (default: true)
+  enableLogging: true, // Whether to enable logging (default: false)
+};
+
+generateTitles(config)
+  .then(() => {
+    console.log("Diplomas generated successfully!");
+  })
+  .catch((error) => {
+    console.error("Error generating diplomas:", error);
+  });
 ```

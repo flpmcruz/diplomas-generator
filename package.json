@@ -1,6 +1,6 @@
 {
   "name": "diplomas-generator",
-  "version": "1.4.11",
+  "version": "1.4.12",
   "types": "dist/src/index.d.ts",
   "description": "A versatile tool for generating diplomas and certificates from a list of names, with support for customizable designs and output formats like JPG and PDF.",
   "repository": {

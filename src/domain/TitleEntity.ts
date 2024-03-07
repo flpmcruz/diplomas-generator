@@ -15,7 +15,7 @@ export class TitleEntity implements TitleProps {
   fontColor: string;
   textAlign: string;
   imageQuality: number;
-  imageBaseTitle: LoadedImage;
+  image: LoadedImage;
   position: { x: number; y: number };
   inputNames: string[];
   fontPath: string;
@@ -26,11 +26,11 @@ export class TitleEntity implements TitleProps {
     this.fontColor = new FontColor(config?.color).value;
     this.textAlign = new TextAlign(config?.textAlign).value;
     this.imageQuality = new ImageQuality(config?.imageQuality).value;
-    this.imageBaseTitle = config.imageBaseTitle;
+    this.image = config.image;
 
     this.position = new Position({
-      xFallback: this.imageBaseTitle.width,
-      yFallback: this.imageBaseTitle.height,
+      xFallback: this.image.width,
+      yFallback: this.image.height,
       x: config?.positionNameX,
       y: config?.positionNameY,
     });

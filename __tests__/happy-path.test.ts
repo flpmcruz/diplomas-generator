@@ -47,7 +47,7 @@ describe("Testing generateTitles", () => {
     };
     await generateTitles(config);
     expect(() => {
-      FileSystemService.checkFileExists("ruta/del/archivo/que/no/existe.txt");
+      FileSystemService.checkFileExists(outputPDF);
     }).toThrow();
   });
 
