@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { CreatePdfService } from "../../../src/aplication/index.js";
+import { CreatePdfService } from "../../../src/aplication";
 import { PdfEntity } from "../../../src/domain/PdfEntity.js";
 import { FileSystemService } from "../../../src/domain/services/FileSystemService.js";
 

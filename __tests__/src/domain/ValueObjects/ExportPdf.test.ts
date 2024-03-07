@@ -1,4 +1,4 @@
-import { ExportPdf } from "../../../../src/domain/ValueObjects/index.js";
+import { ExportPdf } from "../../../../src/domain/ValueObjects";
 
 describe("Testing ExportPdf ValueObject", () => {
   test("shoud return true if not valid value provided", () => {

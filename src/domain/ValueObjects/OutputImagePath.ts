@@ -4,7 +4,7 @@ import { LoggingService } from "../../aplication/LoggingService";
 export class OutputImagePath {
   value: string = "";
 
-  constructor(value: string | undefined) {
+  constructor(value?: string) {
     let defaultPath = FileSystemService.joinPaths(
       process.cwd(),
       "output",

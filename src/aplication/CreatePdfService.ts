@@ -1,6 +1,6 @@
 import { PdfEntity } from "../domain/PdfEntity.js";
-import { CreatePdf } from "../domain/interfaces/index.js";
-import { Pdfkit } from "../infraestructure/index.js";
+import { CreatePdf } from "../domain/interfaces";
+import { Pdfkit } from "../infraestructure";
 
 export class CreatePdfService {
   pdfEntity: PdfEntity;

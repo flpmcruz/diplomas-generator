@@ -1,7 +1,7 @@
 export class FontSize {
   value: number = 220;
 
-  constructor(value: number | undefined) {
+  constructor(value?: number) {
     let fontSize = Number(value);
     if (value === undefined) return;
     if (isNaN(fontSize)) return;

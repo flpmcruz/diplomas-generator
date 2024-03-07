@@ -4,7 +4,7 @@ import { FileSystemService } from "../services/FileSystemService.js";
 export class OutputPdfPath {
   value: string = "";
 
-  constructor(value: string | undefined) {
+  constructor(value?: string) {
     if (typeof value === "string" && value.length > 0) {
       let inputPath = FileSystemService.joinPaths(process.cwd(), value);
 

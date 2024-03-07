@@ -1,4 +1,4 @@
-import { InputImagePath } from "../../../../src/domain/ValueObjects/index.js";
+import { InputImagePath } from "../../../../src/domain/ValueObjects";
 import { FileSystemService } from "../../../../src/domain/services/FileSystemService.js";
 
 describe("Testing InputImagePath ValueObject", () => {

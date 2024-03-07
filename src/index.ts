@@ -3,18 +3,18 @@ import {
   CreatePdfService,
   LoadImageService,
   LoggingService,
-} from "./aplication/index.js";
+} from "./aplication";
 import { TitleEntity } from "./domain/TitleEntity.js";
-import { generateTitlesProps } from "./domain/interfaces/index.js";
+import { generateTitlesProps } from "./domain/interfaces";
 import { PdfEntity } from "./domain/PdfEntity.js";
-import { ExportPdf } from "./domain/ValueObjects/index.js";
+import { ExportPdf } from "./domain/ValueObjects";
 
 // Utility to load an image from the file system
-export { LoadImageDeprecated as LoadImage } from "./infraestructure/index.js";
+export { LoadImageDeprecated as LoadImage } from "./infraestructure";
 
 /**
  * @param {generateTitlesProps} config
- * @returns {Promise<void>}
+ * @returns {Promise<boolean>}
  * @description Generate titles with the names provided in the inputNames parameter, and save them in the outputImgPath directory. Then, it generates a PDF with the images and saves it in the outputPdfPath directory. Only the inputNames parameter is required, the rest of the parameters are optional.
  * @example
  * generateTitles({
@@ -29,8 +29,8 @@ export { LoadImageDeprecated as LoadImage } from "./infraestructure/index.js";
  *  inputTitlePath: "src/image/title.jpg",
  *  outputImgPath: "output/img",
  *  outputPdfPath: "output/titles.pdf",
- *  exportPDF: true, // default "true"
- *  enableLogging: true // default "true"
+ *  exportPDF: true,
+ *  enableLogging: true,
  * });
  */
 export async function generateTitles(

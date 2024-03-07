@@ -1,4 +1,4 @@
-import { LoadImageService } from "../../../src/aplication/index.js";
+import { LoadImageService } from "../../../src/aplication";
 
 describe("Testing LoadImageService", () => {
   test("shoud load default Image if path is invalid", async () => {

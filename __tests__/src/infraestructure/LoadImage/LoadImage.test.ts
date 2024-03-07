@@ -1,4 +1,4 @@
-import { LoadImage } from "../../../../src/index.js";
+import { LoadImage } from "../../../../src";
 
 describe("Testing LoadImage", () => {
   test("shoud load Image", async () => {

@@ -1,7 +1,9 @@
-export class FontColor {
-  value: string = "#000000";
+import { HexColor } from "../interfaces";
 
-  constructor(value: string | undefined) {
+export class FontColor {
+  value: HexColor = "#000000";
+
+  constructor(value?: HexColor) {
     if (value === undefined) return;
     /^#[0-9A-Fa-f]{6}$/.test(value)
       ? (this.value = value)

@@ -1,4 +1,4 @@
-import { Position } from "../../../../src/domain/ValueObjects/index.js";
+import { Position } from "../../../../src/domain/ValueObjects";
 
 describe("Testing Position ValueObject", () => {
   test("Shoud return fallback position if position not provided", () => {

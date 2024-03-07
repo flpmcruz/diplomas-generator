@@ -1,4 +1,4 @@
-import { LoggingService } from "../../../src/aplication/index.js";
+import { LoggingService } from "../../../src/aplication";
 
 describe("Testing LoggingService", () => {
   test("Testing LoggingService.getInstance()", () => {

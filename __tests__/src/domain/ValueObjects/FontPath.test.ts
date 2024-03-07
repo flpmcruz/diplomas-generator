@@ -1,4 +1,4 @@
-import { FontPath } from "../../../../src/domain/ValueObjects/index.js";
+import { FontPath } from "../../../../src/domain/ValueObjects";
 import { FileSystemService } from "../../../../src/domain/services/FileSystemService.js";
 
 describe("Testing FontPath ValueObject", () => {

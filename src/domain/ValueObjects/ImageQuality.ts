@@ -1,10 +1,12 @@
-export class ImageQuality {
-  value: number = 0.9;
+import { imgQuality } from "../interfaces";
 
-  constructor(value: number | undefined) {
+export class ImageQuality {
+  value: imgQuality = 0.9;
+
+  constructor(value?: imgQuality) {
     let imageQuality = Number(value);
     if (isNaN(imageQuality)) return;
     if (imageQuality <= 0 || imageQuality > 1) return;
-    this.value = imageQuality;
+    this.value = imageQuality as imgQuality;
   }
 }

@@ -1,4 +1,4 @@
-import { generateTitles } from "./index.js";
+import { generateTitles } from "./";
 
 generateTitles({
   inputNames: ["Felipe", "Juan"],
@@ -7,7 +7,7 @@ generateTitles({
   textAlign: "center",
   positionNameX: 1653,
   positionNameY: 950,
-  imageQuality: 0.9,
+  imageQuality: 0.7,
   fontPath: "dist/src/assets/fonts/itcedscr.ttf",
   inputTitlePath: "dist/src/assets/image/title.jpg",
   outputImgPath: "output/img",

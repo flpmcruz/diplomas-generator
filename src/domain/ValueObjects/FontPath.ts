@@ -13,7 +13,7 @@ export class FontPath {
     "itcedscr.ttf"
   );
 
-  constructor(value: string | undefined) {
+  constructor(value?: string) {
     try {
       if (FileSystemService.checkFileExists(value) && value?.endsWith(".ttf")) {
         this.value = FileSystemService.joinPaths(process.cwd(), value);

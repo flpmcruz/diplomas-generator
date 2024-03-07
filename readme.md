@@ -85,7 +85,7 @@ const config = {
   textAlign: "center", // Text alignment
   positionNameX: 1625, // X-coordinate position for placing the name
   positionNameY: 950, // Y-coordinate position for placing the name
-  imageQuality: 0.9, // Image quality (0 to 1)
+  imageQuality: 0.9, // Image quality (0.1 to 1)
   inputTitlePath: "src/image/title.jpg", // Path to the title image file
   outputImgPath: "output/img",
   outputPdfPath: "output/titles.pdf",

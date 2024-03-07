@@ -1,7 +1,7 @@
 import { createCanvas, registerFont } from "canvas";
 import { TitleEntity } from "../../domain/TitleEntity.js";
 import { FileSystemService } from "../../domain/services/FileSystemService.js";
-import { CreateTitle } from "../../domain/interfaces/index.js";
+import { CreateTitle } from "../../domain/interfaces";
 
 export class Canvas implements CreateTitle {
   titleEntity: TitleEntity;
@@ -21,7 +21,7 @@ export class Canvas implements CreateTitle {
       outputImgPath,
       fontSize,
       fontColor,
-      textAlign,
+      textAlignment,
       position,
       imageQuality,
     } = this.titleEntity;
@@ -33,7 +33,7 @@ export class Canvas implements CreateTitle {
         const ctx = canvas.getContext("2d");
         ctx.font = `${fontSize}px 'MyFont'`;
         ctx.fillStyle = fontColor;
-        ctx.textAlign = textAlign;
+        ctx.textAlign = textAlignment;
 
         // Dibujar la imagen base del título en el lienzo
         ctx.drawImage(image, 0, 0, width, height);

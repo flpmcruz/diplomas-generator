@@ -1,11 +1,13 @@
 import fs from "fs";
 import path from "path";
-import {
-  CreateTitleService,
-  LoadImageService,
-} from "../../../src/aplication/index.js";
+import { CreateTitleService, LoadImageService } from "../../../src/aplication";
 import { TitleEntity } from "../../../src/domain/TitleEntity.js";
 import { FileSystemService } from "../../../src/domain/services/FileSystemService.js";
+import {
+  HexColor,
+  TextAlign,
+  imgQuality,
+} from "../../../src/domain/interfaces";
 
 describe("Testing CreateTitleService", () => {
   const outputImgPath = FileSystemService.joinPaths("output", "img");
@@ -22,11 +24,11 @@ describe("Testing CreateTitleService", () => {
     const config = {
       inputNames: ["Felipe", "Juan"],
       fontSize: 220,
-      textAlign: "center",
-      color: "#000000",
+      textAlign: "center" as TextAlign,
+      color: "#000000" as HexColor,
       positionNameX: 1653,
       positionNameY: 950,
-      imageQuality: 0.9,
+      imageQuality: 0.9 as imgQuality,
       fontPath: "__tests__/src/assets/fonts/itcedscr.ttf",
       outputImgPath,
     };
@@ -42,7 +44,7 @@ describe("Testing CreateTitleService", () => {
     expect(fs.readdirSync(outputImgPath).length).toBe(2);
     expect(titleEntity.fontColor).toBe("#000000");
     expect(titleEntity.fontSize).toBe(220);
-    expect(titleEntity.textAlign).toBe("center");
+    expect(titleEntity.textAlignment).toBe("center");
     expect(titleEntity.imageQuality).toBe(0.9);
     expect(titleEntity.position.x).toBe(1653);
     expect(titleEntity.position.y).toBe(950);

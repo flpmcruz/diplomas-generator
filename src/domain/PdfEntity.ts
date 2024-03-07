@@ -1,6 +1,6 @@
 import { FileSystemService } from "./services/FileSystemService.js";
 import { OutputPdfPath } from "./ValueObjects/OutputPdfPath.js";
-import { PdfProps } from "./interfaces/index.js";
+import { PdfProps } from "./interfaces";
 
 export class PdfEntity {
   outputPdfPath: string;

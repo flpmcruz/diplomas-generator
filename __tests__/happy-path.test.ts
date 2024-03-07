@@ -1,8 +1,9 @@
 import fs from "fs";
 import path from "path";
-import { generateTitles } from "../src/index.js";
+import { generateTitles } from "../src";
 import { FileSystemService } from "../src/domain/services/FileSystemService.js";
-import { Names } from "../src/domain/ValueObjects/index.js";
+import { Names } from "../src/domain/ValueObjects";
+import { HexColor, TextAlign, imgQuality } from "../src/domain/interfaces";
 
 describe("Testing generateTitles", () => {
   const output = FileSystemService.joinPaths("output", "img");
@@ -20,11 +21,11 @@ describe("Testing generateTitles", () => {
     const config = {
       inputNames: ["Felipe", "Juan", "Pedro"],
       fontSize: 220,
-      color: "#000000",
+      color: "#000000" as HexColor,
       positionNameX: 1653,
       positionNameY: 950,
-      textAlign: "center",
-      imageQuality: 0.9,
+      textAlign: "center" as TextAlign,
+      imageQuality: 0.9 as imgQuality,
       fontPath: "__tests__/src/assets/fonts/itcedscr.ttf",
       inputTitlePath: "__tests__/src/assets/image/title.jpg",
       outputImgPath: output,

@@ -4,17 +4,17 @@ import {
   ImageQuality,
   Names,
   Position,
-  TextAlign,
+  TextAlignment,
   FontPath,
   OutputImagePath,
-} from "./ValueObjects/index.js";
-import { LoadedImage, TitleProps } from "./interfaces/index.js";
+} from "./ValueObjects";
+import { LoadedImage, TextAlign, TitleProps, imgQuality } from "./interfaces";
 
 export class TitleEntity implements TitleProps {
   fontSize: number;
   fontColor: string;
-  textAlign: string;
-  imageQuality: number;
+  textAlignment: TextAlign;
+  imageQuality: imgQuality;
   image: LoadedImage;
   position: { x: number; y: number };
   inputNames: string[];
@@ -24,7 +24,7 @@ export class TitleEntity implements TitleProps {
   constructor(config: TitleProps) {
     this.fontSize = new FontSize(config?.fontSize).value;
     this.fontColor = new FontColor(config?.color).value;
-    this.textAlign = new TextAlign(config?.textAlign).value;
+    this.textAlignment = new TextAlignment(config?.textAlign).value;
     this.imageQuality = new ImageQuality(config?.imageQuality).value;
     this.image = config.image;
 

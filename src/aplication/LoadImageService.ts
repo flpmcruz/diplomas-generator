@@ -1,6 +1,6 @@
 import { ImageLoader, LoadedImage } from "../domain/interfaces/index.js";
 import { InputImagePath } from "../domain/ValueObjects/InputImagePath.js";
-import { CanvasLoaderImage } from "../infraestructure/index.js";
+import { CanvasLoaderImage } from "../infraestructure";
 
 export class LoadImageService {
   private inputTitlePath: string;

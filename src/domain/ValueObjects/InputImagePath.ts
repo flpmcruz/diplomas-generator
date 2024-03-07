@@ -13,7 +13,7 @@ export class InputImagePath {
     "title.jpg"
   );
 
-  constructor(value: string | undefined) {
+  constructor(value?: string) {
     try {
       if (FileSystemService.checkFileExists(value)) {
         this.value = FileSystemService.joinPaths(process.cwd(), value + "");

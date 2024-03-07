@@ -1,4 +1,4 @@
-import { FontSize } from "../../../../src/domain/ValueObjects/index.js";
+import { FontSize } from "../../../../src/domain/ValueObjects";
 
 describe("Testing FontSize ValueObject", () => {
   test("shoud return 220 if not valid value provided", () => {

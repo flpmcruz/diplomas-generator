@@ -1,7 +1,9 @@
-export class TextAlign {
-  value: string = "center";
+import { TextAlign } from "../interfaces";
 
-  constructor(value: string | undefined) {
+export class TextAlignment {
+  value: TextAlign = "center";
+
+  constructor(value?: string) {
     if (
       value !== "center" &&
       value !== "left" &&
