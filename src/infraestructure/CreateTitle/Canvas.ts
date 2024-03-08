@@ -31,17 +31,13 @@ export class Canvas implements CreateTitle {
       inputNames.map(async (name, index) => {
         const canvas = this.createCanvas(width, height);
         const ctx = canvas.getContext("2d");
+
         ctx.font = `${fontSize}px 'MyFont'`;
         ctx.fillStyle = fontColor;
         ctx.textAlign = textAlignment;
-
-        // Dibujar la imagen base del título en el lienzo
         ctx.drawImage(image, 0, 0, width, height);
-
-        // Escribir el nombre en el lienzo
         ctx.fillText(name, position.x, position.y);
 
-        // Guardar el lienzo como archivo JPEG en la carpeta de salida
         const path = FileSystemService.joinPaths(
           outputImgPath,
           `${index + 1}.jpg`
