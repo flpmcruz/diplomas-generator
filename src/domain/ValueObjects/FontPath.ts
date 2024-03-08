@@ -2,6 +2,7 @@ import { LoggingService } from "../../aplication/LoggingService.js";
 import { FileSystemService } from "../services/FileSystemService.js";
 
 export class FontPath {
+  private readonly font: string = "itcedscr.ttf";
   value: string = FileSystemService.joinPaths(
     process.cwd(),
     "node_modules",
@@ -10,7 +11,7 @@ export class FontPath {
     "src",
     "assets",
     "fonts",
-    "itcedscr.ttf"
+    this.font
   );
 
   constructor(value?: string) {
@@ -20,7 +21,9 @@ export class FontPath {
       }
     } catch (error) {
       const Loggin = LoggingService.getInstance();
-      Loggin.warning("FontPath provided is not valid, using default font");
+      Loggin.warning(
+        `FontPath provided is not valid, using default font "${this.font}" instead.`
+      );
     }
   }
 }

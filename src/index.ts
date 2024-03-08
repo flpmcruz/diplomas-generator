@@ -68,6 +68,7 @@ export async function generateTitles(
 
       const pdf = new CreatePdfService(pdfEntity);
       await pdf.render();
+
       Logging.success(`PDF generated`);
     }
 

@@ -2,32 +2,25 @@ import { LoggingService } from "../../aplication/LoggingService.js";
 import { FileSystemService } from "../services/FileSystemService.js";
 
 export class OutputPdfPath {
-  value: string = "";
+  value: string = FileSystemService.joinPaths(
+    process.cwd(),
+    "output",
+    "titles.pdf"
+  );
 
   constructor(value?: string) {
     if (typeof value === "string" && value.length > 0) {
       let inputPath = FileSystemService.joinPaths(process.cwd(), value);
-
-      if (FileSystemService.existsPath(inputPath)) {
-        this.value = inputPath;
-        return;
-      }
 
       FileSystemService.createBaseDir(inputPath);
       this.value = value;
       return;
     }
 
-    let defaultPath = FileSystemService.joinPaths(
-      process.cwd(),
-      "output",
-      "titles.pdf"
-    );
-    FileSystemService.createBaseDir(defaultPath);
-    this.value = defaultPath;
+    FileSystemService.createBaseDir(this.value);
     const Loggin = LoggingService.getInstance();
     Loggin.warning(
-      `OutputPdfPath not provided or invalid, using the default path: ${defaultPath}`
+      `OutputPdfPath not provided or invalid, using the default path: ${this.value}`
     );
   }
 }

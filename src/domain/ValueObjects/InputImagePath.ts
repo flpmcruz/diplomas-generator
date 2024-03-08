@@ -21,7 +21,7 @@ export class InputImagePath {
     } catch (error) {
       const Loggin = LoggingService.getInstance();
       Loggin.warning(
-        "Image title provided is not valid, using default image title"
+        "Image title provided is not valid, using default image title. This is only for testing purposes."
       );
     }
   }

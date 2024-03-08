@@ -47,13 +47,12 @@ export class Canvas implements CreateTitle {
           `${index + 1}.jpg`
         );
         const outputStream = FileSystemService.createWriteStream(path);
-
         if (!outputStream)
-          throw new Error("Error al crear el flujo de escritura.");
+          throw new Error("Error creating the output stream for the canvas.");
 
         const stream = canvas.createJPEGStream({
-          imageQuality, // Calidad de compresión JPEG
-          chromaSubsampling: false, // Desactivar submuestreo de croma para evitar artefactos de color
+          imageQuality,
+          chromaSubsampling: false,
         });
 
         await new Promise<void>((resolve, reject) => {

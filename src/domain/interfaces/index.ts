@@ -50,12 +50,12 @@ export interface LoadedImage {
 }
 
 export interface CreateTitle {
-  titleEntity: TitleEntity;
+  titleEntity: InstanceType<typeof TitleEntity>;
   render: () => Promise<void>;
 }
 
 export interface CreatePdf {
-  pdfEntity: PdfEntity;
+  pdfEntity: InstanceType<typeof PdfEntity>;
   render: () => Promise<void>;
 }
 
