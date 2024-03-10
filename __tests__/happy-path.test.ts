@@ -28,6 +28,7 @@ describe("Testing generateTitles", () => {
       imageQuality: 0.9 as imgQuality,
       fontPath: "__tests__/src/assets/fonts/itcedscr.ttf",
       inputTitlePath: "__tests__/src/assets/image/title.jpg",
+      exportImg: true,
       outputImgPath: output,
       outputPdfPath: outputPDF,
       exportPDF: true,
@@ -45,6 +46,7 @@ describe("Testing generateTitles", () => {
       exportPDF: false,
       inputNames: ["Felipe", "Juan", "Pedro"],
       enableLogging: false,
+      exportImg: true,
     };
     await generateTitles(config);
     expect(() => {
@@ -52,10 +54,25 @@ describe("Testing generateTitles", () => {
     }).toThrow();
   });
 
+  test("shoud not generate images with exportImg = false", async () => {
+    const config = {
+      exportImg: false,
+      exportPDF: true,
+      inputNames: ["Felipe", "Juan", "Pedro"],
+      enableLogging: false,
+    };
+    await generateTitles(config);
+    expect(() => FileSystemService.readDirContent(output)).toThrow(
+      "Empty Directory"
+    );
+  });
+
   test("shoud work with default config without parameters", async () => {
     const config = {
       inputNames: "__tests__/src/assets/data/names.txt",
       enableLogging: false,
+      exportImg: true,
+      exportPDF: true,
     };
     await generateTitles(config);
     const titles = FileSystemService.readDirContent(output);
@@ -64,5 +81,18 @@ describe("Testing generateTitles", () => {
 
     const pdf = FileSystemService.checkFileExists(outputPDF);
     expect(pdf).toBeTruthy();
+  });
+
+  test("should throw error if both exports defined to false", async () => {
+    const config = {
+      inputNames: ["Felipe", "Juan", "Pedro"],
+      enableLogging: false,
+      exportImg: false,
+      exportPDF: false,
+    };
+
+    return expect(generateTitles(config)).rejects.toThrow(
+      "At least one export option must be enabled"
+    );
   });
 });

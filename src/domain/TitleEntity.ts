@@ -7,6 +7,8 @@ import {
   TextAlignment,
   FontPath,
   OutputImagePath,
+  Export,
+  OutputPdfPath,
 } from "./ValueObjects";
 import { LoadedImage, TextAlign, TitleProps, imgQuality } from "./interfaces";
 
@@ -19,7 +21,10 @@ export class TitleEntity implements TitleProps {
   position: { x: number; y: number };
   inputNames: string[];
   fontPath: string;
+  exportImg: boolean;
   outputImgPath: string;
+  exportPdf: boolean;
+  outputPdfPath: string;
 
   constructor(config: TitleProps) {
     this.fontSize = new FontSize(config?.fontSize).value;
@@ -36,6 +41,16 @@ export class TitleEntity implements TitleProps {
     });
     this.inputNames = new Names(config?.inputNames).value;
     this.fontPath = new FontPath(config?.fontPath).value;
+    this.exportImg = new Export(config?.exportImg).value;
     this.outputImgPath = new OutputImagePath(config?.outputImgPath).value;
+    this.exportPdf = new Export(config?.exportPDF).value;
+    this.outputPdfPath = new OutputPdfPath(config?.outputPdfPath).value;
+
+    this.checkExportIsDefined();
+  }
+
+  private checkExportIsDefined(): void {
+    if (!this.exportImg && !this.exportPdf)
+      throw new Error("At least one export option must be enabled");
   }
 }

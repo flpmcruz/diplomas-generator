@@ -1,4 +1,3 @@
-import { PdfEntity } from "../PdfEntity.js";
 import { TitleEntity } from "../TitleEntity.js";
 
 export type imgQuality =
@@ -25,9 +24,12 @@ export interface TitleProps {
   positionNameY?: number;
   imageQuality?: imgQuality;
   fontPath?: string;
-  inputTitlePath?: string;
-  outputImgPath?: string;
   image: LoadedImage;
+  inputTitlePath?: string;
+  exportImg?: boolean;
+  outputImgPath?: string;
+  exportPDF?: boolean;
+  outputPdfPath?: string;
 }
 
 export interface generateTitlesProps extends Omit<TitleProps, "image"> {
@@ -51,11 +53,6 @@ export interface LoadedImage {
 
 export interface CreateTitle {
   titleEntity: InstanceType<typeof TitleEntity>;
-  render: () => Promise<void>;
-}
-
-export interface CreatePdf {
-  pdfEntity: InstanceType<typeof PdfEntity>;
   render: () => Promise<void>;
 }
 

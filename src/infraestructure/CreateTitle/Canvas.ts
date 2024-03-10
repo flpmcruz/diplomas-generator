@@ -24,39 +24,71 @@ export class Canvas implements CreateTitle {
       textAlignment,
       position,
       imageQuality,
+      exportImg,
+      exportPdf,
+      outputPdfPath,
     } = this.titleEntity;
-    const { width, height, imageBaseTitle: image } = this.titleEntity.image;
+    const { width, height, imageBaseTitle } = this.titleEntity.image;
+
+    const fillCtx = (ctx: CanvasRenderingContext2D, name: string) => {
+      ctx.font = `${fontSize}px 'MyFont'`;
+      ctx.fillStyle = fontColor;
+      ctx.textAlign = textAlignment;
+      ctx.drawImage(imageBaseTitle, 0, 0, width, height);
+      ctx.fillText(name, position.x, position.y);
+    };
+
+    //PDF
+    let ctxPDF: any;
+    let outputPDFStream: any;
+    let stream: any;
+    if (exportPdf) {
+      const myCanvasPDF = this.createCanvas(width, height, "pdf");
+      ctxPDF = myCanvasPDF.getContext("2d");
+      outputPDFStream = FileSystemService.createWriteStream(outputPdfPath);
+      stream = myCanvasPDF.createPDFStream();
+    }
 
     await Promise.all(
       inputNames.map(async (name, index) => {
-        const canvas = this.createCanvas(width, height);
-        const ctx = canvas.getContext("2d");
+        //JPG
+        if (exportImg) {
+          const canvasJPG = this.createCanvas(width, height);
+          const ctxJPG = canvasJPG.getContext("2d");
+          fillCtx(ctxJPG, name);
 
-        ctx.font = `${fontSize}px 'MyFont'`;
-        ctx.fillStyle = fontColor;
-        ctx.textAlign = textAlignment;
-        ctx.drawImage(image, 0, 0, width, height);
-        ctx.fillText(name, position.x, position.y);
+          const path = FileSystemService.joinPaths(
+            outputImgPath,
+            `${index + 1}.jpg`
+          );
+          const outputStream = FileSystemService.createWriteStream(path);
+          const stream = canvasJPG.createJPEGStream({
+            imageQuality,
+            chromaSubsampling: false,
+          });
 
-        const path = FileSystemService.joinPaths(
-          outputImgPath,
-          `${index + 1}.jpg`
-        );
-        const outputStream = FileSystemService.createWriteStream(path);
-        if (!outputStream)
-          throw new Error("Error creating the output stream for the canvas.");
+          await new Promise<void>((resolve, reject) => {
+            stream.pipe(outputStream);
+            outputStream.on("finish", () => resolve());
+            outputStream.on("error", (error) => reject(error));
+          });
+        }
 
-        const stream = canvas.createJPEGStream({
-          imageQuality,
-          chromaSubsampling: false,
-        });
-
-        await new Promise<void>((resolve, reject) => {
-          stream.pipe(outputStream);
-          outputStream.on("finish", () => resolve());
-          outputStream.on("error", (error) => reject(error));
-        });
+        //PDF
+        if (exportPdf) {
+          fillCtx(ctxPDF, name);
+          ctxPDF.addPage();
+        }
       })
     );
+
+    //PDF
+    if (exportPdf) {
+      await new Promise<void>((resolve, reject) => {
+        stream.pipe(outputPDFStream);
+        outputPDFStream.on("finish", () => resolve());
+        outputPDFStream.on("error", () => reject("Error creating PDF file"));
+      });
+    }
   }
 }

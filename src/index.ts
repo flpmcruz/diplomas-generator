@@ -1,13 +1,10 @@
 import {
   CreateTitleService,
-  CreatePdfService,
   LoadImageService,
   LoggingService,
 } from "./aplication";
 import { TitleEntity } from "./domain/TitleEntity.js";
 import { generateTitlesProps } from "./domain/interfaces";
-import { PdfEntity } from "./domain/PdfEntity.js";
-import { ExportPdf } from "./domain/ValueObjects";
 
 // Utility to load an image from the file system
 export { LoadImageDeprecated as LoadImage } from "./infraestructure";
@@ -27,9 +24,10 @@ export { LoadImageDeprecated as LoadImage } from "./infraestructure";
  *  imageQuality: 0.9,
  *  fontPath: "src/fonts/itcedscr.ttf",
  *  inputTitlePath: "src/image/title.jpg",
+ *  exportImg: true,
  *  outputImgPath: "output/img",
- *  outputPdfPath: "output/titles.pdf",
  *  exportPDF: true,
+ *  outputPdfPath: "output/titles.pdf",
  *  enableLogging: true,
  * });
  */
@@ -51,30 +49,14 @@ export async function generateTitles(
     await title.render();
 
     /*  */
-    Logging.success("Images generated");
+    titleEntity.exportImg && Logging.success("Images generated");
+    titleEntity.exportPdf && Logging.success("PDF generated");
     Logging.default("-".repeat(15));
     /*  */
 
-    const exportPdf = new ExportPdf(config?.exportPDF).value;
-    if (exportPdf) {
-      Logging.main("Generating PDF");
-
-      const pdfEntity = new PdfEntity({
-        outputPdfPath: config?.outputPdfPath,
-        imagesPath: titleEntity.outputImgPath,
-        width: image.width,
-        height: image.height,
-      });
-
-      const pdf = new CreatePdfService(pdfEntity);
-      await pdf.render();
-
-      Logging.success(`PDF generated`);
-    }
-
     return true;
   } catch (error) {
-    if (error instanceof Error) throw error.message;
+    if (error instanceof Error) throw error;
     throw new Error("An error occurred while generating the titles");
   }
 }

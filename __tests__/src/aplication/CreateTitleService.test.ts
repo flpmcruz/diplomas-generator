@@ -30,6 +30,7 @@ describe("Testing CreateTitleService", () => {
       positionNameY: 950,
       imageQuality: 0.9 as imgQuality,
       fontPath: "__tests__/src/assets/fonts/itcedscr.ttf",
+      exportImg: true,
       outputImgPath,
     };
 

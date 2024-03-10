@@ -40,9 +40,10 @@ This package uses the package [node-canvas](https://www.npmjs.com/package/canvas
 | `imageQuality`   | Quality of the base image of the title on the diplomas, as a value between 0 and 1.          |
 | `fontPath`       | File path for the text font for the names on the diplomas.                                   |
 | `inputTitlePath` | File path for the base image file of the title on the diplomas.                              |
+| `exportImg`      | Boolean to enable or disable the export of the diplomas as JPG files.                        |
 | `outputImgPath`  | Output path to save the generated diplomas as images.                                        |
-| `outputPdfPath`  | Output path to save the generated diplomas as PDF files.                                     |
 | `exportPDF`      | Boolean to enable or disable the export of the diplomas as PDF files.                        |
+| `outputPdfPath`  | Output path to save the generated diplomas as PDF files.                                     |
 | `enableLogging`  | Boolean to enable or disable the logging of the process.                                     |
 
 # Considerations
@@ -87,9 +88,10 @@ const config = {
   positionNameY: 950, // Y-coordinate position for placing the name
   imageQuality: 0.9, // Image quality (0.1 to 1)
   inputTitlePath: "src/image/title.jpg", // Path to the title image file
+  exportImg: true, // Whether to export images (default: true)
   outputImgPath: "output/img",
-  outputPdfPath: "output/titles.pdf",
   exportPDF: true, // Whether to export PDF (default: true)
+  outputPdfPath: "output/titles.pdf",
   enableLogging: true, // Whether to enable logging (default: false)
 };
 

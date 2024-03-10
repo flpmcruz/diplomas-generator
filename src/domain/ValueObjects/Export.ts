@@ -1,4 +1,4 @@
-export class ExportPdf {
+export class Export {
   value: boolean = true;
 
   constructor(value?: boolean) {

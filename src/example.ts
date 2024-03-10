@@ -1,5 +1,6 @@
 import { generateTitles } from "./";
 
+console.time("generateTitles");
 generateTitles({
   inputNames: ["Felipe", "Juan"],
   fontSize: 220,
@@ -10,10 +11,11 @@ generateTitles({
   imageQuality: 0.7,
   fontPath: "dist/src/assets/fonts/itcedscr.ttf",
   inputTitlePath: "dist/src/assets/image/title.jpg",
+  exportImg: true,
   outputImgPath: "output/img",
   outputPdfPath: "output/titles.pdf",
   enableLogging: true,
-  exportPDF: true,
+  exportPDF: false,
 })
-  .then(() => console.log("Done"))
+  .then(() => console.timeEnd("generateTitles"))
   .catch((error) => console.error(error));

@@ -15,7 +15,9 @@ export class Names {
     if (typeof value === "string" && value.length > 0) {
       try {
         let path = FileSystemService.joinPaths(process.cwd(), value);
-        this.value = FileSystemService.readList(path);
+        this.value = FileSystemService.readList(path).filter(
+          (name) => name.length > 0
+        );
         if (this.value.length === 0) throw new Error("Invalid list of names");
         return;
       } catch (error) {
