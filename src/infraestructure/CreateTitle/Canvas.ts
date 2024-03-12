@@ -18,7 +18,6 @@ export class Canvas implements CreateTitle {
   async render(): Promise<void> {
     const {
       inputNames,
-      outputImgPath,
       fontSize,
       fontColor,
       textAlignment,
@@ -26,6 +25,7 @@ export class Canvas implements CreateTitle {
       imageQuality,
       exportImg,
       exportPdf,
+      outputImgPath,
       outputPdfPath,
     } = this.titleEntity;
     const { width, height, imageBaseTitle } = this.titleEntity.image;

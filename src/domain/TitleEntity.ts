@@ -27,6 +27,17 @@ export class TitleEntity implements TitleProps {
   outputPdfPath: string;
 
   constructor(config: TitleProps) {
+    this.exportImg = new Export(config?.exportImg).value;
+    this.exportPdf = new Export(config?.exportPDF).value;
+    this.checkExportIsDefined();
+
+    this.outputImgPath = this.exportImg
+      ? new OutputImagePath(config?.outputImgPath).value
+      : "";
+    this.outputPdfPath = this.exportPdf
+      ? new OutputPdfPath(config?.outputPdfPath).value
+      : "";
+
     this.fontSize = new FontSize(config?.fontSize).value;
     this.fontColor = new FontColor(config?.color).value;
     this.textAlignment = new TextAlignment(config?.textAlign).value;
@@ -41,12 +52,6 @@ export class TitleEntity implements TitleProps {
     });
     this.inputNames = new Names(config?.inputNames).value;
     this.fontPath = new FontPath(config?.fontPath).value;
-    this.exportImg = new Export(config?.exportImg).value;
-    this.outputImgPath = new OutputImagePath(config?.outputImgPath).value;
-    this.exportPdf = new Export(config?.exportPDF).value;
-    this.outputPdfPath = new OutputPdfPath(config?.outputPdfPath).value;
-
-    this.checkExportIsDefined();
   }
 
   private checkExportIsDefined(): void {

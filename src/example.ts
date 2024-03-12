@@ -11,11 +11,11 @@ generateTitles({
   imageQuality: 0.7,
   fontPath: "dist/src/assets/fonts/itcedscr.ttf",
   inputTitlePath: "dist/src/assets/image/title.jpg",
-  exportImg: true,
+  exportImg: false,
   outputImgPath: "output/img",
   outputPdfPath: "output/titles.pdf",
   enableLogging: true,
-  exportPDF: false,
+  exportPDF: true,
 })
   .then(() => console.timeEnd("generateTitles"))
   .catch((error) => console.error(error));

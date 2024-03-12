@@ -62,9 +62,7 @@ describe("Testing generateTitles", () => {
       enableLogging: false,
     };
     await generateTitles(config);
-    expect(() => FileSystemService.readDirContent(output)).toThrow(
-      "Empty Directory"
-    );
+    expect(FileSystemService.existsPath(output)).toBeFalsy();
   });
 
   test("shoud work with default config without parameters", async () => {

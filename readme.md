@@ -48,11 +48,13 @@ This package uses the package [node-canvas](https://www.npmjs.com/package/canvas
 
 # Considerations
 
-`inputNames`, `inputTitlePath`, `outputImgPath`, and `outputPdfPath` should be relative paths to the project root.
+- `exportImg` is the most expensive operation in the process, so if you don't need the images, set it to `false` to speed up the process.
 
-`positionNameX` and `positionNameY` are the coordinates (px) of the name in the diploma. By default, the name is centered in the diploma. Use these parameters to adjust the position of the name in the diploma.
+- `inputNames`, `inputTitlePath`, `outputImgPath`, and `outputPdfPath` should be relative paths to the project root.
 
-Use `textAlign` to adjust the horizontal alignment of the name relative to the `positionNameX`.
+- `positionNameX` and `positionNameY` are the coordinates (px) of the name in the diploma. By default, the name is centered in the diploma. Use these parameters to adjust the position of the name in the diploma.
+
+- Use `textAlign` to adjust the horizontal alignment of the name relative to the `positionNameX`.
 
 File names.txt should contain a list of names separated by new line.
 

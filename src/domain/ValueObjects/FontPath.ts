@@ -16,9 +16,8 @@ export class FontPath {
 
   constructor(value?: string) {
     try {
-      if (FileSystemService.checkFileExists(value) && value?.endsWith(".ttf")) {
+      if (FileSystemService.checkFileExists(value) && value?.endsWith(".ttf"))
         this.value = FileSystemService.joinPaths(process.cwd(), value);
-      }
     } catch (error) {
       const Loggin = LoggingService.getInstance();
       Loggin.warning(
